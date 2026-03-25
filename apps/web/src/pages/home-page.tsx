@@ -1,12 +1,6 @@
 import { useDeferredValue, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import {
-  ArrowUpRight,
-  Search,
-  ShieldCheck,
-  Sparkles,
-  Upload,
-} from "lucide-react";
+import { ArrowUpRight, Search, Upload } from "lucide-react";
 import { Link } from "react-router-dom";
 import { fetchPublications } from "@/lib/api";
 import { PublicationCard } from "@/components/publication-card";
