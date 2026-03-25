@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum PublicationStatus {
+  PENDING
+  PUBLISHED
+  SUSPENDED
+}
+
+enum PublicationHistoryAction {
+  UPLOAD
+  UPDATE
+  PUBLISH
+  SUSPEND
+}
+
+model Publication {
+  id                  String                     @id @default(cuid())
+  title               String
+  description         String
+  author              String
+  publishYear         Int
+  copyrightExpiryDate DateTime
+  status              PublicationStatus         @default(PENDING)
+  createdAt           DateTime                  @default(now())
+  updatedAt           DateTime                  @updatedAt
+  files               PublicationFile[]
+  histories           PublicationHistory[]
+}
+
+model PublicationFile {
+  id           String      @id @default(cuid())
+  publicationId String
+  originalName String
+  storedName   String
+  mimeType     String
+  extension    String
+  size         Int
+  relativePath String
+  createdAt    DateTime    @default(now())
+  publication  Publication @relation(fields: [publicationId], references: [id], onDelete: Cascade)
+}
+
+model PublicationHistory {
+  id             String                     @id @default(cuid())
+  publicationId  String
+  action         PublicationHistoryAction
+  actor          String
+  note           String
+  previousStatus PublicationStatus?
+  nextStatus     PublicationStatus?
+  createdAt      DateTime                   @default(now())
+  publication    Publication                @relation(fields: [publicationId], references: [id], onDelete: Cascade)
+}

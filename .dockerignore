@@ -1,0 +1,12 @@
+node_modules
+apps/*/node_modules
+apps/*/dist
+coverage
+.git
+.codex
+.superpowers
+storage/uploads/*
+!storage/uploads/.gitkeep
+apps/api/prisma/dev.db
+apps/api/prisma/*.db-journal
+npm-debug.log*

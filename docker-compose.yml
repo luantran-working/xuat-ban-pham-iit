@@ -1,0 +1,33 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: iit-publications-api
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: file:/data/dev.db
+      UPLOAD_DIR: /data/uploads
+      JWT_SECRET: iit-publications-secret
+    volumes:
+      - iit_publications_data:/data
+    ports:
+      - "6021:3000"
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        VITE_API_BASE_URL: /api
+    container_name: iit-publications-web
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "6022:80"
+
+volumes:
+  iit_publications_data:
