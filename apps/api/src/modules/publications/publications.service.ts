@@ -4,6 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { existsSync, rmSync } from 'node:fs';
 import {
   Prisma,
   PublicationHistoryAction,
@@ -11,7 +12,10 @@ import {
 } from '@prisma/client';
 import { extname, resolve } from 'node:path';
 import { PrismaService } from '../prisma/prisma.service';
-import { ListAdminPublicationsDto, ListPublicationsDto } from './dto/list-publications.dto';
+import {
+  ListAdminPublicationsDto,
+  ListPublicationsDto,
+} from './dto/list-publications.dto';
 import { ReviewPublicationDto } from './dto/review-publication.dto';
 import { UploadPublicationDto } from './dto/upload-publication.dto';
 import {
@@ -53,7 +57,9 @@ export class PublicationsService {
             originalName: file.originalname,
             storedName: file.filename,
             mimeType: file.mimetype || 'application/octet-stream',
-            extension: extname(file.originalname).replace('.', '').toLowerCase(),
+            extension: extname(file.originalname)
+              .replace('.', '')
+              .toLowerCase(),
             size: file.size,
             relativePath: this.normalizeRelativePath(file.path),
           })),
@@ -83,7 +89,10 @@ export class PublicationsService {
   async listPublications(query: ListPublicationsDto) {
     const where: Prisma.PublicationWhereInput = {
       status: {
-        in: [PrismaPublicationStatus.PUBLISHED, PrismaPublicationStatus.SUSPENDED],
+        in: [
+          PrismaPublicationStatus.PUBLISHED,
+          PrismaPublicationStatus.SUSPENDED,
+        ],
       },
     };
 
@@ -132,7 +141,10 @@ export class PublicationsService {
       },
     });
 
-    if (!publication || publication.status === PrismaPublicationStatus.PENDING) {
+    if (
+      !publication ||
+      publication.status === PrismaPublicationStatus.PENDING
+    ) {
       throw new NotFoundException('Không tìm thấy xuất bản phẩm.');
     }
 
@@ -161,8 +173,13 @@ export class PublicationsService {
       },
     });
 
-    if (!publication || publication.status !== PrismaPublicationStatus.PUBLISHED) {
-      throw new ForbiddenException('Tệp chỉ khả dụng khi xuất bản phẩm đã phát hành.');
+    if (
+      !publication ||
+      publication.status !== PrismaPublicationStatus.PUBLISHED
+    ) {
+      throw new ForbiddenException(
+        'Tệp chỉ khả dụng khi xuất bản phẩm đã phát hành.',
+      );
     }
 
     const file = publication.files.find((item) => item.id === fileId);
@@ -274,6 +291,58 @@ export class PublicationsService {
     });
 
     return { items };
+  }
+
+  async deletePublication(id: string) {
+    const publication = await this.prisma.publication.findUnique({
+      where: { id },
+      include: {
+        files: true,
+      },
+    });
+
+    if (!publication) {
+      throw new NotFoundException('Không tìm thấy xuất bản phẩm.');
+    }
+
+    await this.prisma.publication.delete({
+      where: { id },
+    });
+
+    for (const file of publication.files) {
+      const absolutePath = resolve(process.cwd(), file.relativePath);
+      if (existsSync(absolutePath)) {
+        rmSync(absolutePath, { force: true });
+      }
+    }
+
+    return { success: true };
+  }
+
+  async deletePublicationHistory(publicationId: string, historyId: string) {
+    const publication = await this.prisma.publication.findUnique({
+      where: { id: publicationId },
+      select: { id: true },
+    });
+
+    if (!publication) {
+      throw new NotFoundException('Không tìm thấy xuất bản phẩm.');
+    }
+
+    const history = await this.prisma.publicationHistory.findUnique({
+      where: { id: historyId },
+      select: { id: true, publicationId: true },
+    });
+
+    if (!history || history.publicationId !== publicationId) {
+      throw new NotFoundException('Không tìm thấy bản ghi lịch sử.');
+    }
+
+    await this.prisma.publicationHistory.delete({
+      where: { id: historyId },
+    });
+
+    return { success: true };
   }
 
   getUploadDirectory() {

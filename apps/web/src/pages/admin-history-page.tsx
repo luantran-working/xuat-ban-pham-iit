@@ -1,32 +1,56 @@
-import { useDeferredValue, useMemo, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { Search } from 'lucide-react';
-import { getAdminToken } from '@/lib/auth';
-import { fetchAdminPublications } from '@/lib/api';
-import { StatusBadge } from '@/components/status-badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { formatDate } from '@/lib/utils';
-import type { PublicationHistoryItem } from '@/types/publication';
+import { useDeferredValue, useMemo, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Search } from "lucide-react";
+import { getAdminToken } from "@/lib/auth";
+import { deleteAdminHistoryItem, fetchAdminPublications } from "@/lib/api";
+import { StatusBadge } from "@/components/status-badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { formatDate } from "@/lib/utils";
+import type { PublicationHistoryItem } from "@/types/publication";
 
-const actionLabels: Record<PublicationHistoryItem['action'] | 'ALL', string> = {
-  ALL: 'Tất cả',
-  UPLOAD: 'Tải lên',
-  UPDATE: 'Cập nhật',
-  PUBLISH: 'Phát hành',
-  SUSPEND: 'Tạm ngưng',
+const actionLabels: Record<PublicationHistoryItem["action"] | "ALL", string> = {
+  ALL: "Tất cả",
+  UPLOAD: "Tải lên",
+  UPDATE: "Cập nhật",
+  PUBLISH: "Phát hành",
+  SUSPEND: "Tạm ngưng",
 };
 
 export function AdminHistoryPage() {
-  const token = getAdminToken() ?? '';
-  const [search, setSearch] = useState('');
-  const [action, setAction] = useState<PublicationHistoryItem['action'] | 'ALL'>('ALL');
+  const queryClient = useQueryClient();
+  const token = getAdminToken() ?? "";
+  const [search, setSearch] = useState("");
+  const [action, setAction] = useState<
+    PublicationHistoryItem["action"] | "ALL"
+  >("ALL");
   const deferredSearch = useDeferredValue(search);
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ['admin-history-publications', deferredSearch],
-    queryFn: () => fetchAdminPublications(token, deferredSearch, 'ALL'),
+    queryKey: ["admin-history-publications", deferredSearch],
+    queryFn: () => fetchAdminPublications(token, deferredSearch, "ALL"),
+  });
+
+  const deleteHistoryMutation = useMutation({
+    mutationFn: async ({
+      publicationId,
+      historyId,
+    }: {
+      publicationId: string;
+      historyId: string;
+    }) => deleteAdminHistoryItem(token, publicationId, historyId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["admin-history-publications"],
+      });
+    },
   });
 
   const historyItems = useMemo(() => {
@@ -34,17 +58,20 @@ export function AdminHistoryPage() {
       data?.items.flatMap((publication) =>
         publication.history.map((item) => ({
           ...item,
+          publicationId: publication.id,
           publicationTitle: publication.title,
           publicationAuthor: publication.author,
           publicationStatus: publication.status,
         })),
       ) ?? [];
 
-    const filtered = action === 'ALL' ? items : items.filter((item) => item.action === action);
+    const filtered =
+      action === "ALL" ? items : items.filter((item) => item.action === action);
 
     return filtered.sort(
       (left, right) =>
-        new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime(),
+        new Date(right.createdAt).getTime() -
+        new Date(left.createdAt).getTime(),
     );
   }, [action, data?.items]);
 
@@ -56,8 +83,8 @@ export function AdminHistoryPage() {
             <div>
               <CardTitle>Lịch sử ghi nhận</CardTitle>
               <CardDescription>
-                Theo dõi đầy đủ quá trình tải lên, phát hành, cập nhật và tạm ngưng của từng
-                xuất bản phẩm.
+                Theo dõi đầy đủ quá trình tải lên, phát hành, cập nhật và tạm
+                ngưng của từng xuất bản phẩm.
               </CardDescription>
             </div>
             <div className="relative w-full max-w-md">
@@ -77,9 +104,11 @@ export function AdminHistoryPage() {
               <Button
                 key={value}
                 type="button"
-                variant={action === value ? 'default' : 'outline'}
+                variant={action === value ? "default" : "outline"}
                 size="sm"
-                onClick={() => setAction(value as PublicationHistoryItem['action'] | 'ALL')}
+                onClick={() =>
+                  setAction(value as PublicationHistoryItem["action"] | "ALL")
+                }
               >
                 {label}
               </Button>
@@ -138,6 +167,25 @@ export function AdminHistoryPage() {
                         {formatDate(item.createdAt)}
                       </div>
                     </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      disabled={deleteHistoryMutation.isPending}
+                      onClick={async () => {
+                        const shouldDelete = window.confirm(
+                          "Bạn có chắc muốn xóa bản ghi lịch sử này?",
+                        );
+                        if (!shouldDelete) return;
+
+                        await deleteHistoryMutation.mutateAsync({
+                          publicationId: item.publicationId,
+                          historyId: item.id,
+                        });
+                      }}
+                    >
+                      Xóa lịch sử
+                    </Button>
                   </div>
                 </article>
               ))}

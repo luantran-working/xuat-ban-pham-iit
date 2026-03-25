@@ -1,16 +1,16 @@
-import { NavLink, Outlet } from 'react-router-dom';
-import { History, LogOut, ScrollText } from 'lucide-react';
-import { clearAdminToken } from '@/lib/auth';
-import { Button } from '@/components/ui/button';
+import { NavLink, Outlet } from "react-router-dom";
+import { History, LogOut, ScrollText } from "lucide-react";
+import { clearAdminToken } from "@/lib/auth";
+import { Button } from "@/components/ui/button";
 
 export function AdminShell() {
   const navClassName = ({ isActive }: { isActive: boolean }) =>
     [
-      'inline-flex items-center gap-2 rounded-sm px-3 py-2 text-sm font-medium transition-colors',
+      "inline-flex items-center gap-2 rounded-sm px-3 py-2 text-sm font-medium transition-colors",
       isActive
-        ? 'bg-[var(--accent)] text-white'
-        : 'bg-white/70 text-[var(--muted-foreground)] hover:bg-white hover:text-[var(--foreground)]',
-    ].join(' ');
+        ? "bg-blue-300 text-white"
+        : "bg-white/70 text-[var(--muted-foreground)] hover:bg-white hover:text-[var(--foreground)]",
+    ].join(" ");
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 md:px-8">
@@ -19,7 +19,9 @@ export function AdminShell() {
           <div className="text-xs font-semibold uppercase tracking-[0.24em] text-[var(--muted-foreground)]">
             Khu vực quản trị
           </div>
-          <h1 className="mt-2 font-heading text-3xl font-semibold">Quản trị xuất bản phẩm</h1>
+          <h1 className="mt-2 font-heading text-3xl font-semibold">
+            Quản trị xuất bản phẩm
+          </h1>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <NavLink to="/admin/publications" className={navClassName}>
@@ -35,7 +37,7 @@ export function AdminShell() {
             size="sm"
             onClick={() => {
               clearAdminToken();
-              window.location.href = '/admin/login';
+              window.location.href = "/admin/login";
             }}
           >
             <LogOut className="h-4 w-4" />

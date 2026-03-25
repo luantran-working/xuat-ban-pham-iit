@@ -106,3 +106,38 @@ export async function reviewPublication(
 
   return parseJson<AdminPublicationResponse>(response);
 }
+
+export async function deleteAdminPublication(
+  token: string,
+  publicationId: string,
+) {
+  const response = await fetch(
+    `${API_BASE_URL}/admin/publications/${publicationId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return parseJson<{ success: boolean }>(response);
+}
+
+export async function deleteAdminHistoryItem(
+  token: string,
+  publicationId: string,
+  historyId: string,
+) {
+  const response = await fetch(
+    `${API_BASE_URL}/admin/publications/${publicationId}/history/${historyId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return parseJson<{ success: boolean }>(response);
+}

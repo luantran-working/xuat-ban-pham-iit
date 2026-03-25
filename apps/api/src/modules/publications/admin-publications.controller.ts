@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -28,8 +29,24 @@ export class AdminPublicationsController {
     return this.publicationsService.getAdminHistory(id);
   }
 
+  @Delete(':id')
+  deletePublication(@Param('id') id: string) {
+    return this.publicationsService.deletePublication(id);
+  }
+
+  @Delete(':id/history/:historyId')
+  deletePublicationHistory(
+    @Param('id') id: string,
+    @Param('historyId') historyId: string,
+  ) {
+    return this.publicationsService.deletePublicationHistory(id, historyId);
+  }
+
   @Patch(':id/publish')
-  publishPublication(@Param('id') id: string, @Body() dto: ReviewPublicationDto) {
+  publishPublication(
+    @Param('id') id: string,
+    @Body() dto: ReviewPublicationDto,
+  ) {
     return this.publicationsService.reviewPublication(
       id,
       PublicationStatus.PUBLISHED,
@@ -38,7 +55,10 @@ export class AdminPublicationsController {
   }
 
   @Patch(':id/suspend')
-  suspendPublication(@Param('id') id: string, @Body() dto: ReviewPublicationDto) {
+  suspendPublication(
+    @Param('id') id: string,
+    @Body() dto: ReviewPublicationDto,
+  ) {
     return this.publicationsService.reviewPublication(
       id,
       PublicationStatus.SUSPENDED,
