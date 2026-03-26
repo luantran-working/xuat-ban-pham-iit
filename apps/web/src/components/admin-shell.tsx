@@ -6,34 +6,32 @@ import { Button } from "@/components/ui/button";
 export function AdminShell() {
   const navClassName = ({ isActive }: { isActive: boolean }) =>
     [
-      "inline-flex items-center gap-2 rounded-sm px-3 py-2 text-sm font-medium transition-colors",
+      "inline-flex items-center gap-2 rounded-[var(--radius-sm)] px-4 py-2 text-sm font-medium transition-all duration-200 cursor-pointer",
       isActive
-        ? "bg-blue-300 text-white"
-        : "bg-white/70 text-[var(--muted-foreground)] hover:bg-white hover:text-[var(--foreground)]",
+        ? "bg-[var(--accent)] text-white shadow-sm"
+        : "text-[var(--muted-foreground)] hover:bg-[var(--primary-50)] hover:text-[var(--foreground)]",
     ].join(" ");
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 md:px-8">
-      <div className="flex flex-col gap-4 border border-white/70 bg-[var(--panel)] p-5 shadow-sm md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col gap-4 rounded-[var(--radius)] border border-[var(--border)] bg-white p-6 shadow-sm md:flex-row md:items-center md:justify-between">
         <div>
-          <div className="text-xs font-semibold uppercase tracking-[0.24em] text-[var(--muted-foreground)]">
-            Khu vực quản trị
-          </div>
-          <h1 className="mt-2 font-heading text-3xl font-semibold">
+          <div className="eyebrow">Khu vực quản trị</div>
+          <h1 className="mt-2 font-heading text-2xl font-bold text-[var(--foreground)]">
             Quản trị xuất bản phẩm
           </h1>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <NavLink to="/admin/publications" className={navClassName}>
             <ScrollText className="h-4 w-4" />
-            Danh sách xuất bản phẩm
+            Danh sách
           </NavLink>
           <NavLink to="/admin/history" className={navClassName}>
             <History className="h-4 w-4" />
-            Lịch sử ghi nhận
+            Lịch sử
           </NavLink>
           <Button
-            variant="outline"
+            variant="ghost"
             size="sm"
             onClick={() => {
               clearAdminToken();

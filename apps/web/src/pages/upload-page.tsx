@@ -3,7 +3,15 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UploadCloud } from "lucide-react";
+import {
+  CheckCircle2,
+  CloudUpload,
+  FileText,
+  HelpCircle,
+  Info,
+  Shield,
+  UploadCloud,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { uploadPublication } from "@/lib/api";
 import { getUploadUserAuthenticated } from "@/lib/auth";
@@ -40,6 +48,13 @@ const uploadSchema = z.object({
 
 type UploadFormValues = z.infer<typeof uploadSchema>;
 
+const supportedFormats = [
+  { label: "PDF", description: "Tài liệu, sách, báo cáo" },
+  { label: "Hình ảnh", description: "PNG, JPG, SVG, WebP" },
+  { label: "Video", description: "MP4, WebM, MOV" },
+  { label: "Audio", description: "MP3, WAV, OGG" },
+];
+
 export function UploadPage() {
   const navigate = useNavigate();
   const [files, setFiles] = useState<File[]>([]);
@@ -51,6 +66,7 @@ export function UploadPage() {
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(
     () => !getUploadUserAuthenticated(),
   );
+  const [isDragOver, setIsDragOver] = useState(false);
 
   useEffect(() => {
     if (!isUploadAuthenticated) {
@@ -97,8 +113,14 @@ export function UploadPage() {
       navigate("/", { replace: true });
       return;
     }
-
     setIsLoginDialogOpen(open);
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    e.preventDefault();
+    setIsDragOver(false);
+    const droppedFiles = Array.from(e.dataTransfer.files);
+    if (droppedFiles.length) setFiles((prev) => [...prev, ...droppedFiles]);
   }
 
   return (
@@ -113,135 +135,273 @@ export function UploadPage() {
       />
 
       {isUploadAuthenticated ? (
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 md:grid-cols-[1fr_0.85fr] md:px-8">
-          <Card>
-            <CardHeader>
-              <CardTitle className="section-title">
-                Tải lên xuất bản phẩm mới
-              </CardTitle>
-              <CardDescription>
-                Người dùng công khai có thể gửi nhiều tệp cùng lúc. Sau khi tiếp
-                nhận, hệ thống sẽ chuyển trạng thái sang Đang chờ duyệt.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form
-                className="grid gap-5"
-                onSubmit={form.handleSubmit((values: UploadFormValues) =>
-                  mutation.mutate(values),
-                )}
-              >
-                <div className="grid gap-2">
-                  <Label htmlFor="title">Tiêu đề</Label>
-                  <Input id="title" {...form.register("title")} />
-                  <FieldError message={form.formState.errors.title?.message} />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="description">Mô tả ngắn</Label>
-                  <Textarea
-                    id="description"
-                    {...form.register("description")}
-                  />
-                  <FieldError
-                    message={form.formState.errors.description?.message}
-                  />
-                </div>
-                <div className="grid gap-5 md:grid-cols-2">
-                  <div className="grid gap-2">
-                    <Label htmlFor="author">Tác giả/đơn vị gửi</Label>
-                    <Input id="author" {...form.register("author")} />
-                    <FieldError
-                      message={form.formState.errors.author?.message}
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="publishYear">Năm xuất bản</Label>
-                    <Input
-                      id="publishYear"
-                      type="number"
-                      {...form.register("publishYear")}
-                    />
-                    <FieldError
-                      message={form.formState.errors.publishYear?.message}
-                    />
-                  </div>
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="copyrightExpiryDate">
-                    Ngày hết hạn bản quyền
-                  </Label>
-                  <Input
-                    id="copyrightExpiryDate"
-                    type="date"
-                    {...form.register("copyrightExpiryDate")}
-                  />
-                  <FieldError
-                    message={form.formState.errors.copyrightExpiryDate?.message}
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="files">Tệp đính kèm</Label>
-                  <Input
-                    id="files"
-                    type="file"
-                    multiple
-                    onChange={(event) =>
-                      setFiles(Array.from(event.target.files ?? []))
-                    }
-                  />
-                  <p className="text-sm text-[var(--muted-foreground)]">
-                    Cho phép PDF, hình ảnh, video, audio và các tệp phổ biến
-                    khác.
-                  </p>
-                </div>
-                {mutation.error ? (
-                  <div className="rounded-sm border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
-                    {(mutation.error as Error).message}
-                  </div>
-                ) : null}
-                <Button
-                  type="submit"
-                  className="w-full md:w-auto"
-                  disabled={mutation.isPending}
-                >
-                  <UploadCloud className="h-4 w-4" />
-                  {mutation.isPending ? "Đang tải lên..." : "Gửi xuất bản phẩm"}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+        <div>
+          {/* ===== HERO ===== */}
+          <section className="gradient-hero">
+            <div className="mx-auto max-w-7xl px-4 py-12 md:px-8 md:py-16">
+              <div className="reveal text-center space-y-4">
+                <div className="eyebrow">Tải lên xuất bản phẩm</div>
+                <h1 className="section-title mx-auto max-w-2xl">
+                  Gửi tài liệu mới để được kiểm duyệt và phát hành
+                </h1>
+                <p className="body-text mx-auto max-w-xl">
+                  Điền thông tin bên dưới và đính kèm tệp tài liệu. Xuất bản
+                  phẩm sẽ được chuyển sang chờ duyệt ngay khi gửi thành công.
+                </p>
+              </div>
+            </div>
+          </section>
 
-          <Card className="h-fit">
-            <CardHeader>
-              <CardTitle className="section-title">
-                Tóm tắt quy trình xử lý
-              </CardTitle>
-              <CardDescription>
-                Sau khi tải lên, quản trị viên sẽ kiểm tra tính hợp lệ và thời
-                hạn bản quyền.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Step number="1" title="Tiếp nhận hồ sơ">
-                Metadata và tệp được lưu lại ngay khi bạn gửi thành công.
-              </Step>
-              <Step number="2" title="Đưa vào hàng chờ duyệt">
-                Trạng thái mặc định là <strong>Đang chờ duyệt</strong>.
-              </Step>
-              <Step number="3" title="Xử lý bởi quản trị viên">
-                Nếu hợp lệ, bản ghi sẽ được phát hành. Nếu phát hiện vi phạm
-                hoặc hết hạn bản quyền, bản ghi sẽ bị tạm ngưng.
-              </Step>
-              {uploadedStatus ? (
-                <div className="rounded-sm border border-sky-200 bg-sky-50 p-5">
-                  <div className="mb-3 text-sm font-medium text-sky-800">
-                    Tải lên thành công
-                  </div>
-                  <StatusBadge status={uploadedStatus} />
+          {/* ===== MAIN CONTENT ===== */}
+          <section className="py-12 md:py-16">
+            <div className="mx-auto max-w-7xl px-4 md:px-8">
+              <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+                {/* Upload Form */}
+                <Card className="reveal">
+                  <CardHeader>
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--accent-soft)] text-[var(--accent)]">
+                        <CloudUpload className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <CardTitle>Thông tin xuất bản phẩm</CardTitle>
+                        <CardDescription>
+                          Cung cấp metadata và tệp đính kèm.
+                        </CardDescription>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <form
+                      className="grid gap-5"
+                      onSubmit={form.handleSubmit((values: UploadFormValues) =>
+                        mutation.mutate(values),
+                      )}
+                    >
+                      <div className="grid gap-2">
+                        <Label htmlFor="title">Tiêu đề</Label>
+                        <Input
+                          id="title"
+                          placeholder="Nhập tiêu đề xuất bản phẩm..."
+                          {...form.register("title")}
+                        />
+                        <FieldError
+                          message={form.formState.errors.title?.message}
+                        />
+                      </div>
+                      <div className="grid gap-2">
+                        <Label htmlFor="description">Mô tả ngắn</Label>
+                        <Textarea
+                          id="description"
+                          placeholder="Mô tả nội dung chính của xuất bản phẩm..."
+                          {...form.register("description")}
+                        />
+                        <FieldError
+                          message={form.formState.errors.description?.message}
+                        />
+                      </div>
+                      <div className="grid gap-5 md:grid-cols-2">
+                        <div className="grid gap-2">
+                          <Label htmlFor="author">Tác giả / Đơn vị gửi</Label>
+                          <Input
+                            id="author"
+                            placeholder="Tên tác giả hoặc đơn vị..."
+                            {...form.register("author")}
+                          />
+                          <FieldError
+                            message={form.formState.errors.author?.message}
+                          />
+                        </div>
+                        <div className="grid gap-2">
+                          <Label htmlFor="publishYear">Năm xuất bản</Label>
+                          <Input
+                            id="publishYear"
+                            type="number"
+                            {...form.register("publishYear")}
+                          />
+                          <FieldError
+                            message={
+                              form.formState.errors.publishYear?.message
+                            }
+                          />
+                        </div>
+                      </div>
+                      <div className="grid gap-2">
+                        <Label htmlFor="copyrightExpiryDate">
+                          Ngày hết hạn bản quyền
+                        </Label>
+                        <Input
+                          id="copyrightExpiryDate"
+                          type="date"
+                          {...form.register("copyrightExpiryDate")}
+                        />
+                        <FieldError
+                          message={
+                            form.formState.errors.copyrightExpiryDate?.message
+                          }
+                        />
+                      </div>
+
+                      {/* Drag & Drop Zone */}
+                      <div className="grid gap-2">
+                        <Label>Tệp đính kèm</Label>
+                        <div
+                          className={[
+                            "relative flex flex-col items-center justify-center rounded-[var(--radius)] border-2 border-dashed p-8 text-center transition-all cursor-pointer",
+                            isDragOver
+                              ? "border-[var(--accent)] bg-[var(--accent-soft)]"
+                              : "border-[var(--border-strong)] bg-[var(--primary-50)] hover:border-[var(--accent)] hover:bg-[var(--accent-soft)]",
+                          ].join(" ")}
+                          onDragOver={(e) => {
+                            e.preventDefault();
+                            setIsDragOver(true);
+                          }}
+                          onDragLeave={() => setIsDragOver(false)}
+                          onDrop={handleDrop}
+                          onClick={() =>
+                            document.getElementById("files")?.click()
+                          }
+                        >
+                          <UploadCloud className="mb-3 h-10 w-10 text-[var(--primary-300)]" />
+                          <div className="text-sm font-medium text-[var(--foreground)]">
+                            Kéo thả tệp vào đây hoặc nhấn để chọn
+                          </div>
+                          <p className="mt-1 text-xs text-[var(--muted-foreground)]">
+                            PDF, hình ảnh, video, audio và các định dạng khác
+                          </p>
+                          <input
+                            id="files"
+                            type="file"
+                            multiple
+                            className="hidden"
+                            onChange={(event) =>
+                              setFiles(Array.from(event.target.files ?? []))
+                            }
+                          />
+                        </div>
+                        {files.length > 0 && (
+                          <div className="mt-2 space-y-2">
+                            {files.map((file, idx) => (
+                              <div
+                                key={`${file.name}-${idx}`}
+                                className="flex items-center gap-2 rounded-[var(--radius-sm)] bg-[var(--primary-50)] px-3 py-2 text-sm"
+                              >
+                                <FileText className="h-4 w-4 text-[var(--accent)]" />
+                                <span className="truncate text-[var(--foreground)]">
+                                  {file.name}
+                                </span>
+                                <span className="ml-auto shrink-0 text-xs text-[var(--muted-foreground)]">
+                                  {(file.size / 1024).toFixed(0)} KB
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      {mutation.error ? (
+                        <div className="flex items-start gap-3 rounded-[var(--radius-sm)] border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                          <Info className="mt-0.5 h-4 w-4 shrink-0" />
+                          {(mutation.error as Error).message}
+                        </div>
+                      ) : null}
+
+                      <Button
+                        type="submit"
+                        size="lg"
+                        className="w-full"
+                        disabled={mutation.isPending}
+                      >
+                        <UploadCloud className="h-4 w-4" />
+                        <span className="text-white">
+                          {mutation.isPending
+                            ? "Đang tải lên..."
+                            : "Gửi xuất bản phẩm"}
+                        </span>
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+
+                {/* Right Sidebar */}
+                <div className="reveal reveal-delay-1 space-y-6">
+                  {/* Process Steps */}
+                  <Card>
+                    <CardHeader>
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--accent-soft)] text-[var(--accent)]">
+                          <Shield className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-base">
+                            Quy trình xử lý
+                          </CardTitle>
+                          <CardDescription>
+                            Sau tải lên, quản trị viên sẽ kiểm tra.
+                          </CardDescription>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <Step number="1" title="Tiếp nhận hồ sơ">
+                        Metadata và tệp được lưu lại ngay khi gửi thành công.
+                      </Step>
+                      <Step number="2" title="Hàng chờ duyệt">
+                        Trạng thái mặc định là <strong>Đang chờ duyệt</strong>.
+                      </Step>
+                      <Step number="3" title="Kiểm duyệt">
+                        Quản trị viên xử lý: phát hành hoặc tạm ngưng.
+                      </Step>
+                      {uploadedStatus ? (
+                        <div className="flex items-start gap-3 rounded-[var(--radius-sm)] border border-emerald-200 bg-emerald-50 p-4">
+                          <CheckCircle2 className="mt-0.5 h-5 w-5 text-emerald-600" />
+                          <div>
+                            <div className="text-sm font-semibold text-emerald-800">
+                              Tải lên thành công!
+                            </div>
+                            <div className="mt-2">
+                              <StatusBadge status={uploadedStatus} />
+                            </div>
+                          </div>
+                        </div>
+                      ) : null}
+                    </CardContent>
+                  </Card>
+
+                  {/* Supported Formats */}
+                  <Card>
+                    <CardHeader>
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--accent-soft)] text-[var(--accent)]">
+                          <HelpCircle className="h-5 w-5" />
+                        </div>
+                        <CardTitle className="text-base">
+                          Định dạng hỗ trợ
+                        </CardTitle>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-2 gap-3">
+                        {supportedFormats.map((fmt) => (
+                          <div
+                            key={fmt.label}
+                            className="rounded-[var(--radius-sm)] bg-[var(--primary-50)] p-3"
+                          >
+                            <div className="text-sm font-semibold text-[var(--foreground)]">
+                              {fmt.label}
+                            </div>
+                            <div className="mt-1 text-xs text-[var(--muted-foreground)]">
+                              {fmt.description}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
                 </div>
-              ) : null}
-            </CardContent>
-          </Card>
+              </div>
+            </div>
+          </section>
         </div>
       ) : null}
     </>
@@ -250,7 +410,7 @@ export function UploadPage() {
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
-  return <p className="text-sm text-rose-700">{message}</p>;
+  return <p className="text-sm text-rose-600">{message}</p>;
 }
 
 function Step({
@@ -263,15 +423,17 @@ function Step({
   children: ReactNode;
 }) {
   return (
-    <div className="rounded-sm border border-[var(--border)] bg-[var(--card-soft)] p-5">
-      <div className="mb-2 flex items-center gap-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-sm bg-[var(--accent)] text-sm font-semibold text-white">
-          {number}
-        </div>
-        <div className="font-medium">{title}</div>
+    <div className="flex gap-4 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--primary-50)] p-4">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[var(--primary-500)] to-[var(--primary-700)] text-sm font-bold text-white shadow-sm">
+        {number}
       </div>
-      <div className="text-sm leading-7 text-[var(--muted-foreground)]">
-        {children}
+      <div>
+        <div className="font-heading text-sm font-semibold text-[var(--foreground)]">
+          {title}
+        </div>
+        <div className="mt-1 text-sm leading-relaxed text-[var(--muted-foreground)]">
+          {children}
+        </div>
       </div>
     </div>
   );

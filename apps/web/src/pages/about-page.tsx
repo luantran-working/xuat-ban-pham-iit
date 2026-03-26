@@ -1,159 +1,358 @@
 import type { ReactNode } from "react";
 import {
-  BookOpenText,
+  ArrowRight,
+  Award,
+  BookOpenCheck,
   Building2,
   CheckCircle2,
+  Eye,
+  FileCheck2,
   Files,
-  ShieldCheck,
+  Heart,
+  History,
+  Layers,
+  Shield,
+  Target,
+  Users,
   Workflow,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
+const coreValues = [
+  {
+    icon: Eye,
+    title: "Minh bạch",
+    description:
+      "Mọi hành động đều có lịch sử ghi nhận, từ tải lên đến phát hành hoặc tạm ngưng.",
+  },
+  {
+    icon: Shield,
+    title: "Bảo mật",
+    description:
+      "Phân quyền rõ ràng, xác thực người dùng và bảo vệ nội dung trước khi công bố.",
+  },
+  {
+    icon: Target,
+    title: "Hiệu quả",
+    description:
+      "Quy trình gọn nhẹ, tối ưu hóa thời gian từ tiếp nhận đến phát hành nội dung.",
+  },
+  {
+    icon: Heart,
+    title: "Thân thiện",
+    description:
+      "Giao diện trực quan, dễ sử dụng cho cả người gửi và quản trị viên.",
+  },
+];
+
+const capabilities = [
+  {
+    icon: FileCheck2,
+    title: "Kiểm duyệt nội dung",
+    description:
+      "Rà soát tính phù hợp, kiểm tra bản quyền và xác nhận điều kiện phát hành.",
+  },
+  {
+    icon: Files,
+    title: "Đa định dạng",
+    description:
+      "Hỗ trợ PDF, hình ảnh, audio, video và các định dạng tài liệu phổ biến khác.",
+  },
+  {
+    icon: BookOpenCheck,
+    title: "Thư viện số công khai",
+    description:
+      "Xuất bản phẩm được trình bày trên danh mục nhất quán, dễ tra cứu và khai thác.",
+  },
+  {
+    icon: History,
+    title: "Lịch sử thao tác",
+    description:
+      "Ghi nhận chi tiết mọi hành động: tải lên, chỉnh sửa, phát hành, tạm ngưng.",
+  },
+  {
+    icon: Layers,
+    title: "Quản trị tập trung",
+    description:
+      "Một bảng điều khiển duy nhất cho toàn bộ hoạt động quản lý xuất bản phẩm.",
+  },
+  {
+    icon: Users,
+    title: "Đa vai trò",
+    description:
+      "Phân biệt rõ người gửi, người xem công khai và quản trị viên hệ thống.",
+  },
+];
+
+const workflowSteps = [
+  {
+    step: "01",
+    title: "Tiếp nhận hồ sơ công khai",
+    description:
+      "Người dùng gửi nhiều tệp cùng metadata cơ bản, hệ thống tạo bản ghi mới ở trạng thái chờ duyệt.",
+  },
+  {
+    step: "02",
+    title: "Rà soát và kiểm tra bản quyền",
+    description:
+      "Quản trị viên xem xét tính phù hợp, xác minh thời hạn bản quyền và quyết định phát hành.",
+  },
+  {
+    step: "03",
+    title: "Phát hành hoặc tạm ngưng",
+    description:
+      "Mỗi quyết định đều yêu cầu ghi chú xử lý, đồng thời cập nhật lịch sử thao tác.",
+  },
+  {
+    step: "04",
+    title: "Công bố ra giao diện công khai",
+    description:
+      "Bản phát hành được mở xem trực tiếp; bản tạm ngưng vẫn có trong danh mục nhưng bị khóa.",
+  },
+];
+
+const stats = [
+  { value: "24/7", label: "Hệ thống hoạt động" },
+  { value: "100%", label: "Lưu vết đầy đủ" },
+  { value: "5+", label: "Định dạng hỗ trợ" },
+  { value: "2 lớp", label: "Kiểm duyệt" },
+];
 
 export function AboutPage() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
-      <section className="glass-panel reveal overflow-hidden rounded-sm p-6 md:p-8">
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="grid gap-5">
-            <div className="eyebrow">Giới thiệu hệ thống</div>
-            <div className="display-title font-heading font-semibold">
-              Nền tảng xuất bản số với trọng tâm là kiểm duyệt và công bố minh
-              bạch
+    <div>
+      {/* ===== HERO ===== */}
+      <section className="gradient-hero">
+        <div className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">
+          <div className="reveal grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+            <div className="space-y-6">
+              <div className="eyebrow">Về chúng tôi</div>
+              <h1 className="display-title text-[var(--foreground)]">
+                Nền tảng xuất bản số với trọng tâm
+                <span className="text-[var(--accent)]"> kiểm duyệt </span>
+                và công bố minh bạch
+              </h1>
+              <p className="body-text max-w-xl">
+                Cổng xuất bản phẩm điện tử của Công ty Cổ phần IIT được xây
+                dựng để tiếp nhận tài liệu từ người dùng công khai, tổ chức
+                quy trình rà soát tập trung và phát hành nội dung trên một
+                thư viện số rõ trạng thái, dễ theo dõi.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Button asChild size="lg">
+                  <Link to="/upload">
+                    <span className="text-white">Bắt đầu gửi xuất bản phẩm</span>
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" size="lg">
+                  <Link to="/lien-he">Liên hệ với IIT</Link>
+                </Button>
+              </div>
             </div>
-            <p className="max-w-3xl text-base leading-8 text-[var(--muted-foreground)]">
-              Cổng xuất bản phẩm điện tử của Công ty Cổ phần IIT được xây dựng
-              để tiếp nhận tài liệu từ người dùng công khai, tổ chức quy trình
-              rà soát tập trung và phát hành nội dung trên một thư viện số rõ
-              trạng thái, dễ theo dõi và dễ khai thác.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Button asChild className="text-white [&_svg]:text-white">
-                <Link to="/upload">
-                  <p className="text-white">Bắt đầu gửi xuất bản phẩm</p>
-                </Link>
-              </Button>
-              <Button asChild variant="outline">
-                <Link to="/lien-he">Liên hệ với IIT</Link>
-              </Button>
-            </div>
-          </div>
 
-          <div className="grid gap-4">
-            <InfoStat
-              icon={<Building2 className="h-5 w-5" />}
-              title="Đơn vị vận hành"
-            >
-              Công ty Cổ phần IIT là đơn vị trực tiếp vận hành, quản trị và định
-              hướng sử dụng hệ thống.
-            </InfoStat>
-            <InfoStat
-              icon={<Workflow className="h-5 w-5" />}
-              title="Quy trình tập trung"
-            >
-              Hồ sơ được tải lên, chuyển trạng thái chờ duyệt, xem xét bản quyền
-              rồi mới phát hành ra giao diện công khai.
-            </InfoStat>
-            <InfoStat
-              icon={<ShieldCheck className="h-5 w-5" />}
-              title="Kiểm soát minh bạch"
-            >
-              Mọi thao tác phát hành, tạm ngưng và chỉnh sửa quan trọng đều có
-              ghi chú và lịch sử ghi nhận đi kèm.
-            </InfoStat>
+            {/* Info Cards */}
+            <div className="reveal reveal-delay-2 space-y-4">
+              <InfoCard
+                icon={<Building2 className="h-5 w-5" />}
+                title="Đơn vị vận hành"
+              >
+                Công ty Cổ phần IIT là đơn vị trực tiếp vận hành, quản trị và
+                định hướng sử dụng hệ thống.
+              </InfoCard>
+              <InfoCard
+                icon={<Workflow className="h-5 w-5" />}
+                title="Quy trình tập trung"
+              >
+                Hồ sơ được tải lên, chuyển trạng thái chờ duyệt, xem xét bản
+                quyền rồi mới phát hành ra giao diện công khai.
+              </InfoCard>
+              <InfoCard
+                icon={<CheckCircle2 className="h-5 w-5" />}
+                title="Kiểm soát minh bạch"
+              >
+                Mọi thao tác phát hành, tạm ngưng và chỉnh sửa quan trọng đều
+                có ghi chú và lịch sử đi kèm.
+              </InfoCard>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="reveal reveal-delay-1 mt-8 grid gap-6 lg:grid-cols-3">
-        <FeatureCard
-          icon={<BookOpenText className="h-5 w-5" />}
-          title="Không gian lưu hành tập trung"
-          description="Thay vì lưu trữ rời rạc, xuất bản phẩm được trình bày trên một danh mục công khai nhất quán, giúp việc tra cứu và sử dụng thuận tiện hơn."
-        />
-        <FeatureCard
-          icon={<Files className="h-5 w-5" />}
-          title="Hỗ trợ nội dung đa định dạng"
-          description="Hệ thống tiếp nhận nhiều loại tệp và ưu tiên trải nghiệm preview trực tiếp cho những định dạng phổ biến như PDF, ảnh, audio và video."
-        />
-        <FeatureCard
-          icon={<CheckCircle2 className="h-5 w-5" />}
-          title="Phù hợp quy trình kiểm duyệt"
-          description="Trạng thái xuất bản phẩm được biểu diễn rõ ràng, giúp phân tách nội dung chờ duyệt với nội dung đã công bố hoặc đang tạm ngưng."
-        />
+      {/* ===== STATS BAR ===== */}
+      <section className="border-y border-[var(--border)] bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-10 md:px-8">
+          <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
+            {stats.map((stat) => (
+              <div key={stat.label} className="reveal text-center">
+                <div className="font-heading text-3xl font-bold text-[var(--accent)]">
+                  {stat.value}
+                </div>
+                <div className="mt-1 text-sm text-[var(--muted-foreground)]">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
-      <section className="reveal reveal-delay-2 mt-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-        <Card className="border-[var(--border)]">
-          <CardHeader>
-            <div className="eyebrow">Nguyên tắc vận hành</div>
-            <CardTitle className="section-title">
-              Ba lớp giá trị cốt lõi
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="grid gap-4">
-            <ValueItem
-              title="Rõ trách nhiệm"
-              description="Hành động của người gửi và quản trị viên đều có dấu vết, tránh xử lý cảm tính hoặc thiếu căn cứ."
-            />
-            <ValueItem
-              title="Rõ trạng thái"
-              description="Mỗi bản ghi luôn nằm trong một trạng thái cụ thể để người dùng công khai và người quản trị đều nắm được tình hình hiện tại."
-            />
-            <ValueItem
-              title="Rõ khả năng truy cập"
-              description="Nội dung được phát hành có thể xem trực tiếp; nội dung tạm ngưng vẫn hiển thị nhưng bị khóa truy cập để giữ tính minh bạch."
-            />
-          </CardContent>
-        </Card>
+      {/* ===== CORE VALUES ===== */}
+      <section className="py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="reveal text-center">
+            <div className="eyebrow">Giá trị cốt lõi</div>
+            <h2 className="section-title mt-3">
+              Nguyên tắc vận hành của hệ thống
+            </h2>
+            <p className="body-text mx-auto mt-4 max-w-2xl">
+              Bốn giá trị nền tảng định hình cách hệ thống tiếp nhận, xử lý
+              và công bố xuất bản phẩm.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {coreValues.map((value, index) => (
+              <div
+                key={value.title}
+                className={`reveal reveal-delay-${Math.min(index + 1, 5)} surface-card hover-lift p-6 text-center cursor-pointer`}
+              >
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--accent-soft)] text-[var(--accent)]">
+                  <value.icon className="h-7 w-7" />
+                </div>
+                <h3 className="mt-4 font-heading text-lg font-semibold text-[var(--foreground)]">
+                  {value.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--muted-foreground)]">
+                  {value.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-        <Card className="border-[var(--border)]">
-          <CardHeader>
-            <div className="eyebrow">Luồng hoạt động</div>
-            <CardTitle className="section-title">
-              Quy trình nghiệp vụ của hệ thống
-            </CardTitle>
-            <CardDescription>
-              Các bước được tổ chức để vừa tạo thuận lợi cho người dùng gửi nội
-              dung, vừa hỗ trợ quản trị viên kiểm duyệt có kiểm soát.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-4">
-            <TimelineStep
-              step="01"
-              title="Tiếp nhận hồ sơ công khai"
-              description="Người dùng gửi nhiều tệp cùng metadata cơ bản, hệ thống tạo bản ghi mới ở trạng thái chờ duyệt."
-            />
-            <TimelineStep
-              step="02"
-              title="Rà soát và kiểm tra bản quyền"
-              description="Quản trị viên xem xét tính phù hợp của xuất bản phẩm và xác định khả năng phát hành."
-            />
-            <TimelineStep
-              step="03"
-              title="Phát hành hoặc tạm ngưng"
-              description="Mỗi quyết định đều yêu cầu ghi chú xử lý, đồng thời cập nhật lịch sử thao tác để theo dõi lâu dài."
-            />
-            <TimelineStep
-              step="04"
-              title="Công bố ra giao diện công khai"
-              description="Bản phát hành được mở xem trực tiếp; bản tạm ngưng vẫn xuất hiện trong danh mục nhưng bị khóa nội dung."
-            />
-          </CardContent>
-        </Card>
+      {/* ===== CAPABILITIES ===== */}
+      <section className="gradient-section py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="reveal text-center">
+            <div className="eyebrow">Năng lực hệ thống</div>
+            <h2 className="section-title mt-3">
+              Khả năng đáp ứng đa dạng nhu cầu
+            </h2>
+          </div>
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {capabilities.map((cap, index) => (
+              <div
+                key={cap.title}
+                className={`reveal reveal-delay-${Math.min(index + 1, 5)} flex items-start gap-4 rounded-[var(--radius)] border border-[var(--border)] bg-white p-6 shadow-sm transition-all hover:shadow-md hover:border-[var(--border-strong)] cursor-pointer`}
+              >
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--accent-soft)] text-[var(--accent)]">
+                  <cap.icon className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-heading text-base font-semibold text-[var(--foreground)]">
+                    {cap.title}
+                  </h3>
+                  <p className="mt-1 text-sm leading-relaxed text-[var(--muted-foreground)]">
+                    {cap.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== WORKFLOW ===== */}
+      <section className="py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="reveal grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div className="space-y-6">
+              <div className="eyebrow">Luồng hoạt động</div>
+              <h2 className="section-title">
+                Quy trình nghiệp vụ của hệ thống
+              </h2>
+              <p className="body-text">
+                Các bước được tổ chức để vừa tạo thuận lợi cho người dùng gửi nội
+                dung, vừa hỗ trợ quản trị viên kiểm duyệt có kiểm soát.
+              </p>
+              <div className="rounded-[var(--radius)] bg-[var(--accent-soft)] p-5">
+                <div className="flex items-center gap-3">
+                  <Award className="h-5 w-5 text-[var(--accent)]" />
+                  <span className="font-heading text-sm font-semibold text-[var(--primary-700)]">
+                    Cam kết chất lượng
+                  </span>
+                </div>
+                <p className="mt-2 text-sm text-[var(--muted-foreground)]">
+                  Chỉ những xuất bản phẩm đạt tiêu chuẩn mới được công bố trên
+                  thư viện số công khai.
+                </p>
+              </div>
+            </div>
+
+            <div className="reveal reveal-delay-1 space-y-4">
+              {workflowSteps.map((item) => (
+                <div
+                  key={item.step}
+                  className="flex gap-4 rounded-[var(--radius)] border border-[var(--border)] bg-white p-5 shadow-sm transition-all hover:shadow-md"
+                >
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[var(--primary-500)] to-[var(--primary-700)] text-sm font-bold text-white shadow-md">
+                    {item.step}
+                  </div>
+                  <div>
+                    <h3 className="font-heading text-base font-semibold text-[var(--foreground)]">
+                      {item.title}
+                    </h3>
+                    <p className="mt-1 text-sm leading-relaxed text-[var(--muted-foreground)]">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== CTA ===== */}
+      <section className="py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="reveal gradient-cta rounded-[var(--radius-xl)] p-10 text-center text-white shadow-xl md:p-16">
+            <h2 className="font-heading text-2xl font-bold md:text-3xl">
+              Bắt đầu sử dụng hệ thống ngay hôm nay
+            </h2>
+            <p className="mx-auto mt-4 max-w-lg text-sm text-white/80 leading-relaxed">
+              Tải lên xuất bản phẩm mới hoặc liên hệ với IIT để được hỗ trợ
+              thêm.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <Button
+                asChild
+                size="lg"
+                className="bg-white text-[var(--primary-700)] hover:bg-white/90 shadow-lg border-0 from-white to-white"
+              >
+                <Link to="/upload">Gửi xuất bản phẩm</Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="border-white/30 text-white hover:bg-white/10 hover:border-white/50"
+              >
+                <Link to="/lien-he">
+                  Liên hệ
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   );
 }
 
-function InfoStat({
+function InfoCard({
   icon,
   title,
   children,
@@ -163,81 +362,16 @@ function InfoStat({
   children: ReactNode;
 }) {
   return (
-    <div className="hover-lift rounded-sm border border-[var(--border)] bg-white/82 p-5">
-      <div className="flex items-start gap-3">
-        <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[var(--card-soft)] text-[var(--accent)]">
-          {icon}
-        </div>
-        <div>
-          <div className="font-heading text-sm font-semibold">{title}</div>
-          <p className="mt-2 text-sm leading-7 text-[var(--muted-foreground)]">
-            {children}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function FeatureCard({
-  icon,
-  title,
-  description,
-}: {
-  icon: ReactNode;
-  title: string;
-  description: string;
-}) {
-  return (
-    <Card className="hover-lift border-[var(--border)]">
-      <CardContent className="p-6">
-        <div className="flex h-11 w-11 items-center justify-center rounded-sm bg-[var(--card-soft)] text-[var(--accent)]">
-          {icon}
-        </div>
-        <div className="mt-4 font-heading text-lg font-semibold">{title}</div>
-        <p className="mt-2 text-sm leading-7 text-[var(--muted-foreground)]">
-          {description}
-        </p>
-      </CardContent>
-    </Card>
-  );
-}
-
-function ValueItem({
-  title,
-  description,
-}: {
-  title: string;
-  description: string;
-}) {
-  return (
-    <div className="rounded-sm border border-[var(--border)] bg-[var(--card-soft)] p-4">
-      <div className="font-heading text-sm font-semibold">{title}</div>
-      <p className="mt-2 text-sm leading-7 text-[var(--muted-foreground)]">
-        {description}
-      </p>
-    </div>
-  );
-}
-
-function TimelineStep({
-  step,
-  title,
-  description,
-}: {
-  step: string;
-  title: string;
-  description: string;
-}) {
-  return (
-    <div className="grid gap-3 rounded-sm border border-[var(--border)] bg-white/82 p-4 md:grid-cols-[auto_1fr] md:items-start">
-      <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-[var(--accent)] text-sm font-semibold text-white">
-        {step}
+    <div className="surface-card hover-lift flex items-start gap-4 p-5">
+      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--accent-soft)] text-[var(--accent)]">
+        {icon}
       </div>
       <div>
-        <div className="font-heading text-sm font-semibold">{title}</div>
-        <p className="mt-2 text-sm leading-7 text-[var(--muted-foreground)]">
-          {description}
+        <h3 className="font-heading text-sm font-semibold text-[var(--foreground)]">
+          {title}
+        </h3>
+        <p className="mt-1.5 text-sm leading-relaxed text-[var(--muted-foreground)]">
+          {children}
         </p>
       </div>
     </div>

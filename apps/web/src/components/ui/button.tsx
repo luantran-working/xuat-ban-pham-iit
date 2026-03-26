@@ -4,25 +4,26 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm text-sm font-semibold transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-sm)] text-sm font-semibold transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer',
   {
     variants: {
       variant: {
         default:
-          'bg-[var(--accent)] text-white shadow-sm hover:bg-[var(--accent-strong)] hover:text-white [&_svg]:text-current',
+          'bg-gradient-to-r from-[var(--primary-600)] to-[var(--primary-500)] text-white shadow-md hover:from-[var(--primary-700)] hover:to-[var(--primary-600)] hover:shadow-lg [&_svg]:text-current',
         outline:
-          'border border-[var(--border-strong)] bg-white/82 text-[var(--foreground)] shadow-sm hover:border-[var(--accent)] hover:bg-white [&_svg]:text-current',
+          'border border-[var(--border-strong)] bg-white text-[var(--foreground)] shadow-sm hover:border-[var(--accent)] hover:bg-[var(--primary-50)] [&_svg]:text-current',
         secondary:
-          'bg-[var(--accent-soft)] text-[var(--accent-strong)] hover:bg-[#cfe2ff] [&_svg]:text-current',
+          'bg-[var(--accent-soft)] text-[var(--primary-700)] hover:bg-[var(--primary-200)] [&_svg]:text-current',
         ghost:
-          'text-[var(--foreground)] hover:bg-white/75 [&_svg]:text-current',
+          'text-[var(--foreground)] hover:bg-[var(--primary-50)] [&_svg]:text-current',
         destructive:
-          'bg-[var(--danger)] text-white hover:bg-[#8f1f2b] [&_svg]:text-current',
+          'bg-[var(--danger)] text-white hover:bg-red-700 [&_svg]:text-current',
       },
       size: {
-        default: 'h-10 px-4',
-        sm: 'h-9 px-3.5 text-sm',
-        lg: 'h-11 px-5',
+        default: 'h-11 px-5',
+        sm: 'h-9 px-4 text-sm',
+        lg: 'h-12 px-6 text-base',
+        icon: 'h-10 w-10',
       },
     },
     defaultVariants: {

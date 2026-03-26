@@ -1,6 +1,20 @@
 import { useDeferredValue, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowUpRight, Search, Upload } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpenCheck,
+  ChevronRight,
+  Clock,
+  FileCheck2,
+  FileText,
+  Globe,
+  Lock,
+  Search,
+  Shield,
+  Upload,
+  Users,
+  Zap,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { fetchPublications } from "@/lib/api";
 import { PublicationCard } from "@/components/publication-card";
@@ -12,6 +26,72 @@ const filters: Array<{ label: string; value: "ALL" | PublicationStatus }> = [
   { label: "Tất cả", value: "ALL" },
   { label: "Đã phát hành", value: "PUBLISHED" },
   { label: "Tạm ngưng", value: "SUSPENDED" },
+];
+
+const features = [
+  {
+    icon: FileCheck2,
+    title: "Kiểm duyệt chặt chẽ",
+    description:
+      "Mọi xuất bản phẩm đều trải qua quy trình rà soát, xác nhận bản quyền trước khi được công bố.",
+  },
+  {
+    icon: Globe,
+    title: "Công bố công khai",
+    description:
+      "Nội dung phát hành được hiển thị trên thư viện số, phục vụ tra cứu và khai thác thuận tiện.",
+  },
+  {
+    icon: Shield,
+    title: "Bảo mật thông tin",
+    description:
+      "Xác thực người dùng, phân quyền rõ ràng, lưu vết mọi hành động trong hệ thống.",
+  },
+  {
+    icon: Zap,
+    title: "Preview trực tuyến",
+    description:
+      "Xem trực tiếp PDF, hình ảnh, audio, video trên trình duyệt mà không cần tải về máy.",
+  },
+  {
+    icon: Clock,
+    title: "Lịch sử đầy đủ",
+    description:
+      "Ghi nhận toàn bộ thao tác: tải lên, phát hành, tạm ngưng, chỉnh sửa với thời gian chi tiết.",
+  },
+  {
+    icon: Users,
+    title: "Đa vai trò truy cập",
+    description:
+      "Hỗ trợ người gửi công khai, người xem thư viện và quản trị viên với quyền hạn phù hợp.",
+  },
+];
+
+const processSteps = [
+  {
+    number: "01",
+    title: "Tải lên hồ sơ",
+    description:
+      "Người dùng cung cấp thông tin metadata và tệp đính kèm qua form upload online.",
+  },
+  {
+    number: "02",
+    title: "Chờ kiểm duyệt",
+    description:
+      "Hệ thống gán trạng thái chờ duyệt và thông báo đến quản trị viên.",
+  },
+  {
+    number: "03",
+    title: "Rà soát bản quyền",
+    description:
+      "Quản trị viên xác minh tính hợp lệ, kiểm tra thời hạn bản quyền.",
+  },
+  {
+    number: "04",
+    title: "Phát hành công khai",
+    description:
+      "Xuất bản phẩm được công bố trên thư viện số, sẵn sàng để tra cứu.",
+  },
 ];
 
 export function HomePage() {
@@ -40,156 +120,393 @@ export function HomePage() {
   }, [data?.items]);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 md:px-8 md:py-14">
-      <section className="glass-panel reveal overflow-hidden rounded-sm p-6 md:p-8">
-        <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="grid gap-5">
-            <div className="eyebrow">Thư viện số công khai</div>
-            <div className="display-title font-heading font-semibold">
-              Danh sách xuất bản phẩm điện tử đã công bố
+    <div>
+      {/* ===== HERO SECTION ===== */}
+      <section className="gradient-hero overflow-hidden">
+        <div className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">
+          <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+            <div className="reveal space-y-6">
+              <div className="eyebrow">Thư viện xuất bản phẩm điện tử</div>
+              <h1 className="display-title text-[var(--foreground)]">
+                Nền tảng công bố và quản trị
+                <span className="text-[var(--accent)]"> xuất bản phẩm </span>
+                hiện đại
+              </h1>
+              <p className="body-text max-w-xl">
+                Tra cứu nhanh theo tiêu đề hoặc tác giả, xem trực tiếp các
+                định dạng phổ biến và theo dõi rõ trạng thái phát hành trong
+                một không gian lưu hành tập trung, minh bạch.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Button asChild size="lg">
+                  <Link to="/upload">
+                    <Upload className="h-4 w-4" />
+                    <span className="text-white">Gửi xuất bản phẩm</span>
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" size="lg">
+                  <Link to="/gioi-thieu">
+                    Tìm hiểu hệ thống
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
             </div>
-            <p className="max-w-3xl text-base leading-8 text-[var(--muted-foreground)]">
-              Tra cứu nhanh theo tiêu đề hoặc tác giả, xem trực tiếp các định
-              dạng phổ biến và theo dõi rõ trạng thái phát hành của từng xuất
-              bản phẩm trong cùng một không gian lưu hành tập trung.
-            </p>
 
-            <div className="grid gap-4 md:grid-cols-3">
-              <MetricCard
-                label="Tổng bản ghi công khai"
+            {/* Stats Cards */}
+            <div className="reveal reveal-delay-2 grid gap-4 sm:grid-cols-3 lg:grid-cols-1 lg:gap-5">
+              <StatCard
+                icon={BookOpenCheck}
                 value={String(stats.total)}
+                label="Tổng bản ghi công khai"
+                color="sky"
               />
-              <MetricCard
-                label="Đã phát hành"
+              <StatCard
+                icon={FileCheck2}
                 value={String(stats.published)}
+                label="Đã phát hành"
+                color="emerald"
               />
-              <MetricCard label="Tạm ngưng" value={String(stats.suspended)} />
-            </div>
-          </div>
-
-          <div className="grid gap-4">
-            <div className="rounded-sm border border-[var(--border)] bg-white/86 p-5">
-              <div className="flex items-start gap-3">
-                <div>
-                  <div className="font-heading text-sm font-semibold">
-                    Quy trình công bố minh bạch
-                  </div>
-                  <p className="mt-2 text-sm leading-7 text-[var(--muted-foreground)]">
-                    Chỉ những xuất bản phẩm đã phát hành hoặc tạm ngưng mới xuất
-                    hiện tại danh mục công khai. Bản chờ duyệt luôn được tách
-                    khỏi giao diện người dùng phổ thông.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="rounded-sm border border-[var(--border)] bg-white/86 p-5">
-              <div className="flex items-start gap-3">
-                <div>
-                  <div className="font-heading text-sm font-semibold">
-                    Hỗ trợ nhiều loại tệp
-                  </div>
-                  <p className="mt-2 text-sm leading-7 text-[var(--muted-foreground)]">
-                    PDF, hình ảnh, âm thanh, video và các tài liệu phổ biến khác
-                    đều có thể được tiếp nhận; những loại hỗ trợ preview sẽ hiển
-                    thị trực tiếp trên website.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Button asChild className="text-white [&_svg]:text-white">
-                <Link to="/upload">
-                  <Upload className="h-4 w-4" />
-                  <p className="text-white">Gửi xuất bản phẩm mới</p>
-                </Link>
-              </Button>
-              <Button asChild variant="outline">
-                <Link to="/gioi-thieu">
-                  Tìm hiểu hệ thống
-                  <ArrowUpRight className="h-4 w-4" />
-                </Link>
-              </Button>
+              <StatCard
+                icon={Lock}
+                value={String(stats.suspended)}
+                label="Tạm ngưng"
+                color="amber"
+              />
             </div>
           </div>
         </div>
       </section>
 
-      <section className="reveal reveal-delay-1 mt-8 rounded-sm border border-white/70 bg-white/72 p-5 shadow-sm">
-        <div className="grid gap-4 lg:grid-cols-[1fr_auto] items-center justify-center">
-          <div className="grid gap-4">
-            <div className="relative w-full">
+      {/* ===== FEATURES SECTION ===== */}
+      <section className="py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="reveal text-center">
+            <div className="eyebrow">Tính năng nổi bật</div>
+            <h2 className="section-title mt-3">
+              Giải pháp toàn diện cho xuất bản số
+            </h2>
+            <p className="body-text mx-auto mt-4 max-w-2xl">
+              Từ tiếp nhận hồ sơ, kiểm duyệt nội dung đến phát hành công
+              khai – tất cả trong một hệ thống duy nhất.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {features.map((feature, index) => (
+              <div
+                key={feature.title}
+                className={`reveal reveal-delay-${Math.min(index + 1, 5)} surface-card hover-lift p-6 cursor-pointer`}
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--accent-soft)] text-[var(--accent)]">
+                  <feature.icon className="h-6 w-6" />
+                </div>
+                <h3 className="mt-4 font-heading text-lg font-semibold text-[var(--foreground)]">
+                  {feature.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--muted-foreground)]">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== PROCESS SECTION ===== */}
+      <section className="gradient-section py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="reveal text-center">
+            <div className="eyebrow">Quy trình xử lý</div>
+            <h2 className="section-title mt-3">
+              Bốn bước từ tải lên đến phát hành
+            </h2>
+            <p className="body-text mx-auto mt-4 max-w-2xl">
+              Quy trình được chuẩn hóa giúp đảm bảo tính minh bạch và kiểm
+              soát chất lượng nội dung.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {processSteps.map((step, index) => (
+              <div
+                key={step.number}
+                className={`reveal reveal-delay-${Math.min(index + 1, 5)} relative`}
+              >
+                <div className="surface-card p-6 h-full">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[var(--primary-500)] to-[var(--primary-700)] text-white font-heading text-lg font-bold shadow-md">
+                    {step.number}
+                  </div>
+                  <h3 className="mt-4 font-heading text-base font-semibold text-[var(--foreground)]">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--muted-foreground)]">
+                    {step.description}
+                  </p>
+                </div>
+                {index < processSteps.length - 1 && (
+                  <div className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 text-[var(--primary-300)]">
+                    <ChevronRight className="h-6 w-6" />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== PUBLICATIONS LIST SECTION ===== */}
+      <section className="py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="reveal">
+            <div className="eyebrow">Thư viện số</div>
+            <div className="mt-3 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <h2 className="section-title">
+                  Danh sách xuất bản phẩm công bố
+                </h2>
+                <p className="body-text mt-2 max-w-xl">
+                  Tìm kiếm và tra cứu các xuất bản phẩm điện tử đã được kiểm
+                  duyệt và phát hành trên hệ thống.
+                </p>
+              </div>
+              <Button asChild variant="outline">
+                <Link to="/upload">
+                  <Upload className="h-4 w-4" />
+                  Gửi xuất bản phẩm mới
+                </Link>
+              </Button>
+            </div>
+          </div>
+
+          {/* Search & Filters */}
+          <div className="reveal reveal-delay-1 mt-8 flex flex-col gap-4 rounded-[var(--radius)] border border-[var(--border)] bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+            <div className="relative w-full max-w-md">
               <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted-foreground)]" />
               <Input
-                className="pl-10 max-w-[420px]"
+                className="pl-10"
                 placeholder="Nhập tiêu đề hoặc tác giả để tra cứu..."
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
               />
             </div>
+            <div className="flex flex-wrap gap-2">
+              {filters.map((filter) => (
+                <Button
+                  key={filter.value}
+                  type="button"
+                  variant={status === filter.value ? "default" : "outline"}
+                  size="sm"
+                  className={
+                    status === filter.value ? "text-white" : undefined
+                  }
+                  onClick={() => setStatus(filter.value)}
+                >
+                  {filter.label}
+                </Button>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {filters.map((filter) => (
-              <Button
-                key={filter.value}
-                type="button"
-                variant={status === filter.value ? "default" : "outline"}
-                size="sm"
-                className={
-                  status === filter.value
-                    ? "text-white [&_svg]:text-white"
-                    : undefined
-                }
-                onClick={() => setStatus(filter.value)}
-              >
-                {filter.label}
-              </Button>
-            ))}
+
+          {/* Publications Grid */}
+          <div className="reveal reveal-delay-2 mt-8">
+            {isLoading ? (
+              <div className="rounded-[var(--radius)] border border-dashed border-[var(--border-strong)] p-12 text-center text-[var(--muted-foreground)]">
+                <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-2 border-[var(--primary-200)] border-t-[var(--accent)]" />
+                Đang tải danh sách xuất bản phẩm...
+              </div>
+            ) : error ? (
+              <div className="rounded-[var(--radius)] border border-rose-200 bg-rose-50 p-12 text-center text-rose-700">
+                {(error as Error).message}
+              </div>
+            ) : items.length ? (
+              <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                {items.map((publication) => (
+                  <div key={publication.id}>
+                    <PublicationCard publication={publication} />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="rounded-[var(--radius)] border border-dashed border-[var(--border-strong)] bg-[var(--primary-50)] p-12 text-center">
+                <FileText className="mx-auto mb-3 h-10 w-10 text-[var(--primary-300)]" />
+                <h3 className="font-heading text-lg font-semibold">
+                  Chưa có kết quả phù hợp
+                </h3>
+                <p className="mt-2 text-sm text-[var(--muted-foreground)]">
+                  Thử tìm theo tiêu đề khác hoặc kết hợp bộ lọc trạng thái.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      <section className="reveal reveal-delay-2 mt-8">
-        {isLoading ? (
-          <div className="rounded-sm border border-dashed border-[var(--border-strong)] p-10 text-center text-[var(--muted-foreground)]">
-            Đang tải danh sách xuất bản phẩm...
-          </div>
-        ) : error ? (
-          <div className="rounded-sm border border-rose-200 bg-rose-50 p-10 text-center text-rose-700">
-            {(error as Error).message}
-          </div>
-        ) : items.length ? (
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {items.map((publication, index) => (
-              <div
-                key={publication.id}
-                className={index < 3 ? "reveal reveal-delay-3" : ""}
-              >
-                <PublicationCard publication={publication} />
+      {/* ===== WHY CHOOSE SECTION ===== */}
+      <section className="gradient-section py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="reveal grid gap-12 lg:grid-cols-2 lg:items-center">
+            <div className="space-y-6">
+              <div className="eyebrow">Tại sao chọn IIT Publications</div>
+              <h2 className="section-title">
+                Nền tảng tin cậy cho quy trình xuất bản chuyên nghiệp
+              </h2>
+              <p className="body-text">
+                Được thiết kế cho các tổ chức cần một quy trình tiếp nhận, kiểm
+                duyệt và phát hành nội dung số rõ ràng, minh bạch và có kiểm
+                soát.
+              </p>
+              <div className="space-y-4">
+                {[
+                  "Quy trình kiểm duyệt hai lớp: nội dung và bản quyền",
+                  "Hỗ trợ đa định dạng: PDF, ảnh, video, audio",
+                  "Lịch sử thao tác chi tiết, minh bạch",
+                  "Giao diện thân thiện, dễ sử dụng",
+                ].map((item) => (
+                  <div key={item} className="flex items-start gap-3">
+                    <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] text-white">
+                      <svg
+                        className="h-3 w-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={3}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    </div>
+                    <span className="text-sm text-[var(--muted-foreground)]">
+                      {item}
+                    </span>
+                  </div>
+                ))}
               </div>
-            ))}
+              <Button asChild>
+                <Link to="/gioi-thieu">
+                  <span className="text-white">Tìm hiểu thêm</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+
+            {/* Visual Card */}
+            <div className="reveal reveal-delay-2">
+              <div className="rounded-[var(--radius-lg)] bg-gradient-to-br from-[var(--primary-600)] to-[var(--primary-800)] p-8 text-white shadow-xl">
+                <div className="grid gap-6">
+                  <div className="flex items-center justify-between rounded-[var(--radius-sm)] bg-white/10 p-4 backdrop-blur-sm">
+                    <div>
+                      <div className="text-xs text-white/70">
+                        Tổng xuất bản phẩm
+                      </div>
+                      <div className="mt-1 font-heading text-2xl font-bold">
+                        {stats.total}+
+                      </div>
+                    </div>
+                    <BookOpenCheck className="h-8 w-8 text-white/40" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="rounded-[var(--radius-sm)] bg-white/10 p-4 backdrop-blur-sm">
+                      <div className="text-xs text-white/70">Đã phát hành</div>
+                      <div className="mt-1 font-heading text-xl font-bold">
+                        {stats.published}
+                      </div>
+                    </div>
+                    <div className="rounded-[var(--radius-sm)] bg-white/10 p-4 backdrop-blur-sm">
+                      <div className="text-xs text-white/70">Tạm ngưng</div>
+                      <div className="mt-1 font-heading text-xl font-bold">
+                        {stats.suspended}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="rounded-[var(--radius-sm)] border border-white/20 p-4">
+                    <div className="text-sm font-medium">
+                      Quy trình hoạt động liên tục 24/7
+                    </div>
+                    <p className="mt-1 text-xs text-white/70">
+                      Hệ thống sẵn sàng tiếp nhận và xử lý mọi lúc, mọi nơi.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        ) : (
-          <div className="rounded-sm border border-dashed border-[var(--border-strong)] bg-white/60 p-10 text-center">
-            <h2 className="section-title font-heading font-semibold">
-              Chưa có kết quả phù hợp
+        </div>
+      </section>
+
+      {/* ===== CTA SECTION ===== */}
+      <section className="py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <div className="reveal gradient-cta overflow-hidden rounded-[var(--radius-xl)] p-10 text-center text-white shadow-xl md:p-16">
+            <h2 className="font-heading text-2xl font-bold md:text-3xl">
+              Sẵn sàng gửi xuất bản phẩm?
             </h2>
-            <p className="mt-3 text-sm leading-7 text-[var(--muted-foreground)]">
-              Hãy thử tìm theo tiêu đề khác hoặc tên tác giả, đơn vị gửi và kết
-              hợp bộ lọc trạng thái để thu hẹp phạm vi hiển thị.
+            <p className="mx-auto mt-4 max-w-lg text-sm text-white/80 leading-relaxed">
+              Bắt đầu quy trình tiếp nhận và kiểm duyệt ngay hôm nay. Hệ
+              thống hỗ trợ nhiều định dạng tệp và xử lý nhanh chóng.
             </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <Button
+                asChild
+                size="lg"
+                className="bg-white text-[var(--primary-700)] hover:bg-white/90 shadow-lg border-0 from-white to-white"
+              >
+                <Link to="/upload">
+                  <Upload className="h-4 w-4" />
+                  Tải lên ngay
+                </Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="border-white/30 text-white hover:bg-white/10 hover:border-white/50"
+              >
+                <Link to="/lien-he">
+                  Liên hệ hỗ trợ
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </div>
-        )}
+        </div>
       </section>
     </div>
   );
 }
 
-function MetricCard({ label, value }: { label: string; value: string }) {
+function StatCard({
+  icon: Icon,
+  value,
+  label,
+  color,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  value: string;
+  label: string;
+  color: "sky" | "emerald" | "amber";
+}) {
+  const colorClasses = {
+    sky: "bg-sky-50 text-sky-600 border-sky-100",
+    emerald: "bg-emerald-50 text-emerald-600 border-emerald-100",
+    amber: "bg-amber-50 text-amber-600 border-amber-100",
+  };
+
   return (
-    <div className="hover-lift rounded-sm border border-[var(--border)] bg-white/82 p-4">
-      <div className="metric-value">{value}</div>
-      <div className="mt-2 text-sm leading-7 text-[var(--muted-foreground)]">
-        {label}
+    <div className="surface-card hover-lift flex items-center gap-4 p-5">
+      <div
+        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-sm)] border ${colorClasses[color]}`}
+      >
+        <Icon className="h-6 w-6" />
+      </div>
+      <div>
+        <div className="font-heading text-2xl font-bold text-[var(--foreground)]">
+          {value}
+        </div>
+        <div className="text-sm text-[var(--muted-foreground)]">{label}</div>
       </div>
     </div>
   );
