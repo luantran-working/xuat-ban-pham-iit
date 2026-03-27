@@ -186,10 +186,12 @@ export function HomePage() {
             <h2 className="section-title mt-3">
               Giải pháp toàn diện cho phát hành số
             </h2>
-            <p className="body-text mx-auto mt-4 max-w-2xl text-center">
-              Từ tiếp nhận hồ sơ, đặc duyệt nội dung đến phát hành công khai –
-              tất cả trong một hệ thống duy nhất.
-            </p>
+            <div className="mt-4 flex justify-center">
+              <p className="body-text max-w-2xl text-center">
+                Từ tiếp nhận hồ sơ, đặc duyệt nội dung đến phát hành công khai –
+                tất cả trong một hệ thống duy nhất.
+              </p>
+            </div>
           </div>
 
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -221,10 +223,12 @@ export function HomePage() {
             <h2 className="section-title mt-3">
               Bốn bước từ tải lên đến phát hành
             </h2>
-            <p className="body-text mx-auto mt-4 max-w-2xl text-center">
-              Quy trình được chuẩn hóa giúp đảm bảo tính minh bạch và kiểm soát
-              chất lượng nội dung.
-            </p>
+            <div className="mt-4 flex justify-center">
+              <p className="body-text max-w-2xl text-center">
+                Quy trình được chuẩn hóa giúp đảm bảo tính minh bạch và kiểm
+                soát chất lượng nội dung.
+              </p>
+            </div>
           </div>
 
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -347,7 +351,7 @@ export function HomePage() {
             <div className="space-y-6">
               <div className="eyebrow">Tại sao chọn IIT</div>
               <h2 className="section-title">
-                Nền tảng tin cậy cho quy trình phát hành chuyên nghiệp
+                Nền tảng tin cậy cho việc phát hành
               </h2>
               <p className="body-text">
                 Được thiết kế cho các tổ chức cần một quy trình tiếp nhận, đặc
@@ -442,10 +446,12 @@ export function HomePage() {
             <h2 className="font-heading text-2xl font-bold md:text-3xl">
               Sẵn sàng gửi phát hành phẩm?
             </h2>
-            <p className="mx-auto mt-4 max-w-lg text-center text-sm leading-relaxed text-white/80">
-              Bắt đầu quy trình tiếp nhận và đặc duyệt ngay hôm nay. Hệ thống hỗ
-              trợ nhiều định dạng tệp và xử lý nhanh chóng.
-            </p>
+            <div className="mt-4 flex justify-center">
+              <p className="max-w-lg text-center text-sm leading-relaxed text-white/80">
+                Bắt đầu quy trình tiếp nhận và đặc duyệt ngay hôm nay. Hệ thống
+                hỗ trợ nhiều định dạng tệp và xử lý nhanh chóng.
+              </p>
+            </div>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Button
                 asChild
@@ -460,8 +466,7 @@ export function HomePage() {
               <Button
                 asChild
                 size="lg"
-                variant="outline"
-                className="border-white/30 !text-white hover:border-white/50 hover:bg-white/10 hover:!text-white [&_svg]:!text-white"
+                className="border-0 bg-white from-white to-white !text-[var(--primary-700)] shadow-lg hover:bg-white/90 hover:!text-[var(--primary-700)] [&_svg]:!text-[var(--primary-700)]"
               >
                 <Link to="/lien-he">
                   Liên hệ hỗ trợ

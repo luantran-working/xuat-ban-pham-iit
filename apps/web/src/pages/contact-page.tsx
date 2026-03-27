@@ -111,9 +111,9 @@ export function ContactPage() {
                 </span>
               </h1>
               <p className="body-text max-w-xl">
-                Nếu bạn cần trao đổi về cổng phát hành phẩm điện tử, quy trình
-                công bố nội dung hoặc thông tin của đơn vị vận hành, các kênh
-                dưới đây là đầu mối liên hệ chính thức.
+                Nếu bạn cần trao đổi về phát hành phẩm điện tử, quy trình công
+                bố nội dung hoặc thông tin của đơn vị vận hành, các kênh dưới
+                đây là đầu mối liên hệ chính thức.
               </p>
               <Button asChild size="lg">
                 <a href="mailto:info@iit.vn">
@@ -126,10 +126,7 @@ export function ContactPage() {
             {/* Company Info Cards */}
             <div className="reveal reveal-delay-2 grid gap-3 sm:grid-cols-2">
               {companyInfo.map((item) => (
-                <div
-                  key={item.title}
-                  className="surface-card p-5"
-                >
+                <div key={item.title} className="surface-card p-5">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--accent-soft)] text-[var(--accent)]">
                       {item.icon}
@@ -153,9 +150,7 @@ export function ContactPage() {
         <div className="mx-auto max-w-7xl px-4 md:px-8">
           <div className="reveal text-center">
             <div className="eyebrow">Thông tin liên hệ</div>
-            <h2 className="section-title mt-3">
-              Các kênh liên hệ chính thức
-            </h2>
+            <h2 className="section-title mt-3">Các kênh liên hệ chính thức</h2>
           </div>
 
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
@@ -205,8 +200,8 @@ export function ContactPage() {
               <div className="eyebrow">Hỗ trợ</div>
               <h2 className="section-title">Khi nào nên liên hệ với IIT</h2>
               <p className="body-text">
-                Một số tình huống thường gặp mà doanh nghiệp hoặc người dùng
-                có thể cần trao đổi với chúng tôi.
+                Một số tình huống thường gặp mà doanh nghiệp hoặc người dùng có
+                thể cần trao đổi với chúng tôi.
               </p>
               <Button asChild variant="outline">
                 <Link to="/gioi-thieu">
@@ -245,12 +240,10 @@ export function ContactPage() {
             <div className="grid lg:grid-cols-[1fr_1.2fr]">
               <div className="p-8 lg:p-10">
                 <div className="eyebrow">Trụ sở chính</div>
-                <h2 className="section-title mt-3">
-                  Vị trí văn phòng IIT
-                </h2>
+                <h2 className="section-title mt-3">Vị trí văn phòng IIT</h2>
                 <p className="body-text mt-4">
-                  Công ty Cổ phần IIT với trụ sở đặt tại trung tâm thành phố
-                  Cần Thơ, thuận tiện cho giao thông và liên hệ trực tiếp.
+                  Công ty Cổ phần IIT với trụ sở đặt tại trung tâm thành phố Cần
+                  Thơ, thuận tiện cho giao thông và liên hệ trực tiếp.
                 </p>
                 <div className="mt-6 space-y-4">
                   <div className="flex items-start gap-3">
@@ -302,10 +295,12 @@ export function ContactPage() {
             <h2 className="font-heading text-2xl font-bold md:text-3xl">
               Cần hỗ trợ thêm?
             </h2>
-            <p className="mx-auto mt-4 max-w-lg text-sm text-white/80 leading-relaxed">
-              Đội ngũ IIT luôn sẵn sàng hỗ trợ bạn trong quá trình sử dụng
-              hệ thống phát hành phẩm điện tử.
-            </p>
+            <div className="mt-4 flex justify-center">
+              <p className="max-w-lg text-center text-sm leading-relaxed text-white/80">
+                Đội ngũ IIT luôn sẵn sàng hỗ trợ bạn trong quá trình sử dụng hệ
+                thống phát hành phẩm điện tử.
+              </p>
+            </div>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Button
                 asChild
@@ -320,8 +315,7 @@ export function ContactPage() {
               <Button
                 asChild
                 size="lg"
-                variant="outline"
-                className="border-white/30 !text-white hover:border-white/50 hover:bg-white/10 hover:!text-white [&_svg]:!text-white"
+                className="border-0 bg-white from-white to-white !text-[var(--primary-700)] shadow-lg hover:bg-white/90 hover:!text-[var(--primary-700)] [&_svg]:!text-[var(--primary-700)]"
               >
                 <a href="tel:0368909968">
                   <Phone className="h-4 w-4" />

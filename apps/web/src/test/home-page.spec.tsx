@@ -85,8 +85,11 @@ describe('HomePage', () => {
     const supportLink = screen.getByRole('link', { name: 'Liên hệ hỗ trợ' });
 
     expect(featureIntro.className).toContain('text-center');
+    expect(featureIntro.parentElement?.className).toContain('justify-center');
     expect(processIntro.className).toContain('text-center');
+    expect(processIntro.parentElement?.className).toContain('justify-center');
     expect(ctaIntro.className).toContain('text-center');
+    expect(ctaIntro.parentElement?.className).toContain('justify-center');
     expect(uploadNowLink.className).toContain('!text-[var(--primary-700)]');
     expect(supportLink.className).toContain('!text-white');
   });

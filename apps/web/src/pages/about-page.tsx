@@ -129,20 +129,22 @@ export function AboutPage() {
             <div className="space-y-6">
               <div className="eyebrow">Về chúng tôi</div>
               <h1 className="display-title text-[var(--foreground)]">
-                Nền tảng phát hành số với trọng tâm
-                <span className="text-[var(--accent)]"> đặc duyệt </span>
+                Nền tảng phát hành điện tử với trọng tâm
+                <span className="text-[var(--accent)]"> rõ ràng </span>
                 và công bố minh bạch
               </h1>
               <p className="body-text max-w-xl">
-                Cổng phát hành phẩm điện tử của Công ty Cổ phần IIT được xây
-                dựng để tiếp nhận tài liệu từ người dùng công khai, tổ chức
-                quy trình rà soát tập trung và phát hành nội dung trên một
-                dữ liệu số rõ trạng thái, dễ theo dõi.
+                Phát hành phẩm điện tử của Công ty Cổ phần IIT được xây dựng để
+                tiếp nhận tài liệu từ người dùng công khai, tổ chức quy trình rà
+                soát tập trung và phát hành nội dung trên một dữ liệu số rõ
+                trạng thái, dễ theo dõi.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Button asChild size="lg">
                   <Link to="/upload">
-                    <span className="text-white">Bắt đầu gửi phát hành phẩm</span>
+                    <span className="text-white">
+                      Bắt đầu gửi phát hành phẩm
+                    </span>
                   </Link>
                 </Button>
                 <Button asChild variant="outline" size="lg">
@@ -171,8 +173,8 @@ export function AboutPage() {
                 icon={<CheckCircle2 className="h-5 w-5" />}
                 title="Kiểm soát minh bạch"
               >
-                Mọi thao tác phát hành, tạm ngưng và chỉnh sửa quan trọng đều
-                có ghi chú và lịch sử đi kèm.
+                Mọi thao tác phát hành, tạm ngưng và chỉnh sửa quan trọng đều có
+                ghi chú và lịch sử đi kèm.
               </InfoCard>
             </div>
           </div>
@@ -205,10 +207,12 @@ export function AboutPage() {
             <h2 className="section-title mt-3">
               Nguyên tắc vận hành của hệ thống
             </h2>
-            <p className="body-text mx-auto mt-4 max-w-2xl">
-              Bốn giá trị nền tảng định hình cách hệ thống tiếp nhận, xử lý
-              và công bố phát hành phẩm.
-            </p>
+            <div className="mt-4 flex justify-center">
+              <p className="body-text max-w-2xl text-center">
+                Bốn giá trị nền tảng định hình cách hệ thống tiếp nhận, xử lý và
+                công bố phát hành phẩm.
+              </p>
+            </div>
           </div>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {coreValues.map((value, index) => (
@@ -273,8 +277,8 @@ export function AboutPage() {
                 Quy trình nghiệp vụ của hệ thống
               </h2>
               <p className="body-text">
-                Các bước được tổ chức để vừa tạo thuận lợi cho người dùng gửi nội
-                dung, vừa hỗ trợ quản trị viên đặc duyệt có kiểm soát.
+                Các bước được tổ chức để vừa tạo thuận lợi cho người dùng gửi
+                nội dung, vừa hỗ trợ quản trị viên đặc duyệt có kiểm soát.
               </p>
               <div className="rounded-[var(--radius)] bg-[var(--accent-soft)] p-5">
                 <div className="flex items-center gap-3">
@@ -321,10 +325,12 @@ export function AboutPage() {
             <h2 className="font-heading text-2xl font-bold md:text-3xl">
               Bắt đầu sử dụng hệ thống ngay hôm nay
             </h2>
-            <p className="mx-auto mt-4 max-w-lg text-sm text-white/80 leading-relaxed">
-              Tải lên phát hành phẩm mới hoặc liên hệ với IIT để được hỗ trợ
-              thêm.
-            </p>
+            <div className="mt-4 flex justify-center">
+              <p className="max-w-lg text-center text-sm leading-relaxed text-white/80">
+                Tải lên phát hành phẩm mới hoặc liên hệ với IIT để được hỗ trợ
+                thêm.
+              </p>
+            </div>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Button
                 asChild
