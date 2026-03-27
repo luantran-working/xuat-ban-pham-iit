@@ -36,11 +36,11 @@ const uploadSchema = z.object({
   author: z.string().min(1, "Vui lòng nhập tác giả hoặc đơn vị gửi."),
   publishYear: z
     .string()
-    .min(1, "Vui lòng nhập năm xuất bản.")
+    .min(1, "Vui lòng nhập năm phát hành.")
     .refine((value) => {
       const numericValue = Number(value);
       return numericValue >= 1900 && numericValue <= 2100;
-    }, "Năm xuất bản không hợp lệ."),
+    }, "Năm phát hành không hợp lệ."),
   copyrightExpiryDate: z
     .string()
     .min(1, "Vui lòng chọn ngày hết hạn bản quyền."),
@@ -140,12 +140,12 @@ export function UploadPage() {
           <section className="gradient-hero">
             <div className="mx-auto max-w-7xl px-4 py-12 md:px-8 md:py-16">
               <div className="reveal text-center space-y-4">
-                <div className="eyebrow">Tải lên xuất bản phẩm</div>
+                <div className="eyebrow">Tải lên phát hành phẩm</div>
                 <h1 className="section-title mx-auto max-w-2xl">
-                  Gửi tài liệu mới để được kiểm duyệt và phát hành
+                  Gửi tài liệu mới để được đặc duyệt và phát hành
                 </h1>
                 <p className="body-text mx-auto max-w-xl">
-                  Điền thông tin bên dưới và đính kèm tệp tài liệu. Xuất bản
+                  Điền thông tin bên dưới và đính kèm tệp tài liệu. Phát hành
                   phẩm sẽ được chuyển sang chờ duyệt ngay khi gửi thành công.
                 </p>
               </div>
@@ -164,7 +164,7 @@ export function UploadPage() {
                         <CloudUpload className="h-5 w-5" />
                       </div>
                       <div>
-                        <CardTitle>Thông tin xuất bản phẩm</CardTitle>
+                        <CardTitle>Thông tin phát hành phẩm</CardTitle>
                         <CardDescription>
                           Cung cấp metadata và tệp đính kèm.
                         </CardDescription>
@@ -182,7 +182,7 @@ export function UploadPage() {
                         <Label htmlFor="title">Tiêu đề</Label>
                         <Input
                           id="title"
-                          placeholder="Nhập tiêu đề xuất bản phẩm..."
+                          placeholder="Nhập tiêu đề phát hành phẩm..."
                           {...form.register("title")}
                         />
                         <FieldError
@@ -193,7 +193,7 @@ export function UploadPage() {
                         <Label htmlFor="description">Mô tả ngắn</Label>
                         <Textarea
                           id="description"
-                          placeholder="Mô tả nội dung chính của xuất bản phẩm..."
+                          placeholder="Mô tả nội dung chính của phát hành phẩm..."
                           {...form.register("description")}
                         />
                         <FieldError
@@ -213,7 +213,7 @@ export function UploadPage() {
                           />
                         </div>
                         <div className="grid gap-2">
-                          <Label htmlFor="publishYear">Năm xuất bản</Label>
+                          <Label htmlFor="publishYear">Năm phát hành</Label>
                           <Input
                             id="publishYear"
                             type="number"
@@ -316,7 +316,7 @@ export function UploadPage() {
                         <span className="text-white">
                           {mutation.isPending
                             ? "Đang tải lên..."
-                            : "Gửi xuất bản phẩm"}
+                            : "Gửi phát hành phẩm"}
                         </span>
                       </Button>
                     </form>
@@ -349,7 +349,7 @@ export function UploadPage() {
                       <Step number="2" title="Hàng chờ duyệt">
                         Trạng thái mặc định là <strong>Đang chờ duyệt</strong>.
                       </Step>
-                      <Step number="3" title="Kiểm duyệt">
+                      <Step number="3" title="Đặc duyệt">
                         Quản trị viên xử lý: phát hành hoặc tạm ngưng.
                       </Step>
                       {uploadedStatus ? (

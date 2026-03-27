@@ -49,7 +49,7 @@ const coreValues = [
 const capabilities = [
   {
     icon: FileCheck2,
-    title: "Kiểm duyệt nội dung",
+    title: "Đặc duyệt nội dung",
     description:
       "Rà soát tính phù hợp, kiểm tra bản quyền và xác nhận điều kiện phát hành.",
   },
@@ -61,9 +61,9 @@ const capabilities = [
   },
   {
     icon: BookOpenCheck,
-    title: "Thư viện số công khai",
+    title: "Dữ liệu số công khai",
     description:
-      "Xuất bản phẩm được trình bày trên danh mục nhất quán, dễ tra cứu và khai thác.",
+      "Phát hành phẩm được trình bày trên danh mục nhất quán, dễ tra cứu và khai thác.",
   },
   {
     icon: History,
@@ -75,7 +75,7 @@ const capabilities = [
     icon: Layers,
     title: "Quản trị tập trung",
     description:
-      "Một bảng điều khiển duy nhất cho toàn bộ hoạt động quản lý xuất bản phẩm.",
+      "Một bảng điều khiển duy nhất cho toàn bộ hoạt động quản lý phát hành phẩm.",
   },
   {
     icon: Users,
@@ -116,7 +116,7 @@ const stats = [
   { value: "24/7", label: "Hệ thống hoạt động" },
   { value: "100%", label: "Lưu vết đầy đủ" },
   { value: "5+", label: "Định dạng hỗ trợ" },
-  { value: "2 lớp", label: "Kiểm duyệt" },
+  { value: "2 lớp", label: "Đặc duyệt" },
 ];
 
 export function AboutPage() {
@@ -129,20 +129,20 @@ export function AboutPage() {
             <div className="space-y-6">
               <div className="eyebrow">Về chúng tôi</div>
               <h1 className="display-title text-[var(--foreground)]">
-                Nền tảng xuất bản số với trọng tâm
-                <span className="text-[var(--accent)]"> kiểm duyệt </span>
+                Nền tảng phát hành số với trọng tâm
+                <span className="text-[var(--accent)]"> đặc duyệt </span>
                 và công bố minh bạch
               </h1>
               <p className="body-text max-w-xl">
-                Cổng xuất bản phẩm điện tử của Công ty Cổ phần IIT được xây
+                Cổng phát hành phẩm điện tử của Công ty Cổ phần IIT được xây
                 dựng để tiếp nhận tài liệu từ người dùng công khai, tổ chức
                 quy trình rà soát tập trung và phát hành nội dung trên một
-                thư viện số rõ trạng thái, dễ theo dõi.
+                dữ liệu số rõ trạng thái, dễ theo dõi.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Button asChild size="lg">
                   <Link to="/upload">
-                    <span className="text-white">Bắt đầu gửi xuất bản phẩm</span>
+                    <span className="text-white">Bắt đầu gửi phát hành phẩm</span>
                   </Link>
                 </Button>
                 <Button asChild variant="outline" size="lg">
@@ -207,7 +207,7 @@ export function AboutPage() {
             </h2>
             <p className="body-text mx-auto mt-4 max-w-2xl">
               Bốn giá trị nền tảng định hình cách hệ thống tiếp nhận, xử lý
-              và công bố xuất bản phẩm.
+              và công bố phát hành phẩm.
             </p>
           </div>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -274,7 +274,7 @@ export function AboutPage() {
               </h2>
               <p className="body-text">
                 Các bước được tổ chức để vừa tạo thuận lợi cho người dùng gửi nội
-                dung, vừa hỗ trợ quản trị viên kiểm duyệt có kiểm soát.
+                dung, vừa hỗ trợ quản trị viên đặc duyệt có kiểm soát.
               </p>
               <div className="rounded-[var(--radius)] bg-[var(--accent-soft)] p-5">
                 <div className="flex items-center gap-3">
@@ -284,8 +284,8 @@ export function AboutPage() {
                   </span>
                 </div>
                 <p className="mt-2 text-sm text-[var(--muted-foreground)]">
-                  Chỉ những xuất bản phẩm đạt tiêu chuẩn mới được công bố trên
-                  thư viện số công khai.
+                  Chỉ những phát hành phẩm đạt tiêu chuẩn mới được công bố trên
+                  dữ liệu số công khai.
                 </p>
               </div>
             </div>
@@ -322,22 +322,22 @@ export function AboutPage() {
               Bắt đầu sử dụng hệ thống ngay hôm nay
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-sm text-white/80 leading-relaxed">
-              Tải lên xuất bản phẩm mới hoặc liên hệ với IIT để được hỗ trợ
+              Tải lên phát hành phẩm mới hoặc liên hệ với IIT để được hỗ trợ
               thêm.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Button
                 asChild
                 size="lg"
-                className="bg-white text-[var(--primary-700)] hover:bg-white/90 shadow-lg border-0 from-white to-white"
+                className="border-0 bg-white from-white to-white !text-[var(--primary-700)] shadow-lg hover:bg-white/90 hover:!text-[var(--primary-700)] [&_svg]:!text-[var(--primary-700)]"
               >
-                <Link to="/upload">Gửi xuất bản phẩm</Link>
+                <Link to="/upload">Gửi phát hành phẩm</Link>
               </Button>
               <Button
                 asChild
                 size="lg"
                 variant="outline"
-                className="border-white/30 text-white hover:bg-white/10 hover:border-white/50"
+                className="border-white/30 !text-white hover:border-white/50 hover:bg-white/10 hover:!text-white [&_svg]:!text-white"
               >
                 <Link to="/lien-he">
                   Liên hệ

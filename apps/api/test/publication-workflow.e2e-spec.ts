@@ -72,7 +72,7 @@ describe('Publication workflow (e2e)', () => {
     const uploadResponse = await request(app.getHttpServer())
       .post('/publications/upload')
       .field('title', title)
-      .field('description', 'Bộ tài liệu minh họa quy trình xuất bản điện tử')
+      .field('description', 'Bộ tài liệu minh họa quy trình phát hành điện tử')
       .field('author', 'Phòng Nghiên cứu IIT')
       .field('publishYear', '2026')
       .field('copyrightExpiryDate', '2030-12-31')

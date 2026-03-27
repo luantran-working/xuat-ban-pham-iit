@@ -67,7 +67,7 @@ export function UploadLoginDialog({
                 Đăng nhập tải lên
               </DialogTitle>
               <DialogDescription className="text-sm leading-7">
-                Vui lòng đăng nhập trước khi gửi xuất bản phẩm lên hệ thống.
+                Vui lòng đăng nhập trước khi gửi phát hành phẩm lên hệ thống.
                 Phiên đăng nhập này chỉ áp dụng cho chức năng tải lên.
               </DialogDescription>
             </DialogHeader>

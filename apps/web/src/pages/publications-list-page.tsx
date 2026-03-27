@@ -34,19 +34,19 @@ export function PublicationsListPage() {
     <section className="py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div className="reveal">
-          <div className="eyebrow">Thư viện số</div>
+          <div className="eyebrow">Dữ liệu số</div>
           <div className="mt-3 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <h1 className="section-title">Danh sách xuất bản phẩm công bố</h1>
+              <h1 className="section-title">Danh mục phát hành phẩm công bố</h1>
               <p className="body-text mt-2 max-w-xl">
-                Tìm kiếm và tra cứu các xuất bản phẩm điện tử đã được kiểm duyệt
+                Tìm kiếm và tra cứu các phát hành phẩm điện tử đã được đặc duyệt
                 và phát hành trên hệ thống.
               </p>
             </div>
             <Button asChild variant="outline">
               <Link to="/upload">
                 <Upload className="h-4 w-4" />
-                Gửi xuất bản phẩm mới
+                Gửi phát hành phẩm mới
               </Link>
             </Button>
           </div>
@@ -82,7 +82,7 @@ export function PublicationsListPage() {
           {isLoading ? (
             <div className="rounded-[var(--radius)] border border-dashed border-[var(--border-strong)] p-12 text-center text-[var(--muted-foreground)]">
               <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-2 border-[var(--primary-200)] border-t-[var(--accent)]" />
-              Đang tải danh sách xuất bản phẩm...
+              Đang tải danh mục phát hành phẩm...
             </div>
           ) : error ? (
             <div className="rounded-[var(--radius)] border border-rose-200 bg-rose-50 p-12 text-center text-rose-700">

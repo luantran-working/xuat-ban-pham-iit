@@ -41,7 +41,7 @@ describe('AdminHistoryPage', () => {
         {
           id: 'pb-1',
           title: 'Kỷ yếu nghiên cứu IIT',
-          description: 'Ấn phẩm kiểm duyệt',
+          description: 'Ấn phẩm đặc duyệt',
           author: 'Công ty Cổ phần IIT',
           publishYear: 2025,
           copyrightExpiryDate: '2027-12-31',
@@ -55,7 +55,7 @@ describe('AdminHistoryPage', () => {
               id: 'h-1',
               action: 'UPLOAD',
               actor: 'Người dùng công khai',
-              note: 'Khởi tạo hồ sơ xuất bản phẩm',
+              note: 'Khởi tạo hồ sơ phát hành phẩm',
               previousStatus: null,
               nextStatus: 'PENDING',
               createdAt: new Date('2026-03-24T08:00:00.000Z').toISOString(),
@@ -75,12 +75,12 @@ describe('AdminHistoryPage', () => {
     });
   });
 
-  it('hiển thị riêng danh sách lịch sử ghi nhận của xuất bản phẩm', async () => {
+  it('hiển thị riêng danh mục lịch sử ghi nhận của phát hành phẩm', async () => {
     renderAdminHistoryPage();
 
     expect(await screen.findByText('Lịch sử ghi nhận')).toBeInTheDocument();
     expect(await screen.findByText('Đủ điều kiện phát hành')).toBeInTheDocument();
-    expect(screen.getByText('Khởi tạo hồ sơ xuất bản phẩm')).toBeInTheDocument();
+    expect(screen.getByText('Khởi tạo hồ sơ phát hành phẩm')).toBeInTheDocument();
     expect(screen.getAllByText('Kỷ yếu nghiên cứu IIT')).toHaveLength(2);
   });
 });

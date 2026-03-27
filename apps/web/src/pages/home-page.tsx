@@ -31,15 +31,15 @@ const filters: Array<{ label: string; value: "ALL" | PublicationStatus }> = [
 const features = [
   {
     icon: FileCheck2,
-    title: "Kiểm duyệt chặt chẽ",
+    title: "Đặc duyệt chặt chẽ",
     description:
-      "Mọi xuất bản phẩm đều trải qua quy trình rà soát, xác nhận bản quyền trước khi được công bố.",
+      "Mọi phát hành phẩm đều trải qua quy trình rà soát, xác nhận bản quyền trước khi được công bố.",
   },
   {
     icon: Globe,
     title: "Công bố công khai",
     description:
-      "Nội dung phát hành được hiển thị trên thư viện số, phục vụ tra cứu và khai thác thuận tiện.",
+      "Nội dung phát hành được hiển thị trên dữ liệu số, phục vụ tra cứu và khai thác thuận tiện.",
   },
   {
     icon: Shield,
@@ -76,7 +76,7 @@ const processSteps = [
   },
   {
     number: "02",
-    title: "Chờ kiểm duyệt",
+    title: "Chờ đặc duyệt",
     description:
       "Hệ thống gán trạng thái chờ duyệt và thông báo đến quản trị viên.",
   },
@@ -90,7 +90,7 @@ const processSteps = [
     number: "04",
     title: "Phát hành công khai",
     description:
-      "Xuất bản phẩm được công bố trên thư viện số, sẵn sàng để tra cứu.",
+      "Phát hành phẩm được công bố trên dữ liệu số, sẵn sàng để tra cứu.",
   },
 ];
 
@@ -126,22 +126,22 @@ export function HomePage() {
         <div className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">
           <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
             <div className="reveal space-y-6">
-              <div className="eyebrow">Thư viện xuất bản phẩm điện tử</div>
+              <div className="eyebrow">Thư viện phát hành phẩm điện tử</div>
               <h1 className="display-title text-[var(--foreground)]">
                 Nền tảng công bố và quản trị
-                <span className="text-[var(--accent)]"> xuất bản phẩm </span>
+                <span className="text-[var(--accent)]"> phát hành phẩm </span>
                 hiện đại
               </h1>
               <p className="body-text max-w-xl">
-                Tra cứu nhanh theo tiêu đề hoặc tác giả, xem trực tiếp các
-                định dạng phổ biến và theo dõi rõ trạng thái phát hành trong
-                một không gian lưu hành tập trung, minh bạch.
+                Tra cứu nhanh theo tiêu đề hoặc tác giả, xem trực tiếp các định
+                dạng phổ biến và theo dõi rõ trạng thái phát hành trong một
+                không gian lưu hành tập trung, minh bạch.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Button asChild size="lg">
                   <Link to="/upload">
                     <Upload className="h-4 w-4" />
-                    <span className="text-white">Gửi xuất bản phẩm</span>
+                    <span className="text-white">Gửi phát hành phẩm</span>
                   </Link>
                 </Button>
                 <Button asChild variant="outline" size="lg">
@@ -184,11 +184,11 @@ export function HomePage() {
           <div className="reveal text-center">
             <div className="eyebrow">Tính năng nổi bật</div>
             <h2 className="section-title mt-3">
-              Giải pháp toàn diện cho xuất bản số
+              Giải pháp toàn diện cho phát hành số
             </h2>
-            <p className="body-text mx-auto mt-4 max-w-2xl">
-              Từ tiếp nhận hồ sơ, kiểm duyệt nội dung đến phát hành công
-              khai – tất cả trong một hệ thống duy nhất.
+            <p className="body-text mx-auto mt-4 max-w-2xl text-center">
+              Từ tiếp nhận hồ sơ, đặc duyệt nội dung đến phát hành công khai –
+              tất cả trong một hệ thống duy nhất.
             </p>
           </div>
 
@@ -221,9 +221,9 @@ export function HomePage() {
             <h2 className="section-title mt-3">
               Bốn bước từ tải lên đến phát hành
             </h2>
-            <p className="body-text mx-auto mt-4 max-w-2xl">
-              Quy trình được chuẩn hóa giúp đảm bảo tính minh bạch và kiểm
-              soát chất lượng nội dung.
+            <p className="body-text mx-auto mt-4 max-w-2xl text-center">
+              Quy trình được chuẩn hóa giúp đảm bảo tính minh bạch và kiểm soát
+              chất lượng nội dung.
             </p>
           </div>
 
@@ -259,21 +259,21 @@ export function HomePage() {
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 md:px-8">
           <div className="reveal">
-            <div className="eyebrow">Thư viện số</div>
+            <div className="eyebrow">Dữ liệu số</div>
             <div className="mt-3 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
               <div>
                 <h2 className="section-title">
-                  Danh sách xuất bản phẩm công bố
+                  Danh mục phát hành phẩm công bố
                 </h2>
                 <p className="body-text mt-2 max-w-xl">
-                  Tìm kiếm và tra cứu các xuất bản phẩm điện tử đã được kiểm
+                  Tìm kiếm và tra cứu các phát hành phẩm điện tử đã được đặc
                   duyệt và phát hành trên hệ thống.
                 </p>
               </div>
               <Button asChild variant="outline">
                 <Link to="/upload">
                   <Upload className="h-4 w-4" />
-                  Gửi xuất bản phẩm mới
+                  Gửi phát hành phẩm mới
                 </Link>
               </Button>
             </div>
@@ -297,9 +297,7 @@ export function HomePage() {
                   type="button"
                   variant={status === filter.value ? "default" : "outline"}
                   size="sm"
-                  className={
-                    status === filter.value ? "text-white" : undefined
-                  }
+                  className={status === filter.value ? "text-white" : undefined}
                   onClick={() => setStatus(filter.value)}
                 >
                   {filter.label}
@@ -313,7 +311,7 @@ export function HomePage() {
             {isLoading ? (
               <div className="rounded-[var(--radius)] border border-dashed border-[var(--border-strong)] p-12 text-center text-[var(--muted-foreground)]">
                 <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-2 border-[var(--primary-200)] border-t-[var(--accent)]" />
-                Đang tải danh sách xuất bản phẩm...
+                Đang tải danh mục phát hành phẩm...
               </div>
             ) : error ? (
               <div className="rounded-[var(--radius)] border border-rose-200 bg-rose-50 p-12 text-center text-rose-700">
@@ -347,18 +345,18 @@ export function HomePage() {
         <div className="mx-auto max-w-7xl px-4 md:px-8">
           <div className="reveal grid gap-12 lg:grid-cols-2 lg:items-center">
             <div className="space-y-6">
-              <div className="eyebrow">Tại sao chọn IIT Publications</div>
+              <div className="eyebrow">Tại sao chọn IIT</div>
               <h2 className="section-title">
-                Nền tảng tin cậy cho quy trình xuất bản chuyên nghiệp
+                Nền tảng tin cậy cho quy trình phát hành chuyên nghiệp
               </h2>
               <p className="body-text">
-                Được thiết kế cho các tổ chức cần một quy trình tiếp nhận, kiểm
+                Được thiết kế cho các tổ chức cần một quy trình tiếp nhận, đặc
                 duyệt và phát hành nội dung số rõ ràng, minh bạch và có kiểm
                 soát.
               </p>
               <div className="space-y-4">
                 {[
-                  "Quy trình kiểm duyệt hai lớp: nội dung và bản quyền",
+                  "Quy trình đặc duyệt hai lớp: nội dung và bản quyền",
                   "Hỗ trợ đa định dạng: PDF, ảnh, video, audio",
                   "Lịch sử thao tác chi tiết, minh bạch",
                   "Giao diện thân thiện, dễ sử dụng",
@@ -400,7 +398,7 @@ export function HomePage() {
                   <div className="flex items-center justify-between rounded-[var(--radius-sm)] bg-white/10 p-4 backdrop-blur-sm">
                     <div>
                       <div className="text-xs text-white/70">
-                        Tổng xuất bản phẩm
+                        Tổng phát hành phẩm
                       </div>
                       <div className="mt-1 font-heading text-2xl font-bold">
                         {stats.total}+
@@ -442,17 +440,17 @@ export function HomePage() {
         <div className="mx-auto max-w-7xl px-4 md:px-8">
           <div className="reveal gradient-cta overflow-hidden rounded-[var(--radius-xl)] p-10 text-center text-white shadow-xl md:p-16">
             <h2 className="font-heading text-2xl font-bold md:text-3xl">
-              Sẵn sàng gửi xuất bản phẩm?
+              Sẵn sàng gửi phát hành phẩm?
             </h2>
-            <p className="mx-auto mt-4 max-w-lg text-sm text-white/80 leading-relaxed">
-              Bắt đầu quy trình tiếp nhận và kiểm duyệt ngay hôm nay. Hệ
-              thống hỗ trợ nhiều định dạng tệp và xử lý nhanh chóng.
+            <p className="mx-auto mt-4 max-w-lg text-center text-sm leading-relaxed text-white/80">
+              Bắt đầu quy trình tiếp nhận và đặc duyệt ngay hôm nay. Hệ thống hỗ
+              trợ nhiều định dạng tệp và xử lý nhanh chóng.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Button
                 asChild
                 size="lg"
-                className="bg-white text-[var(--primary-700)] hover:bg-white/90 shadow-lg border-0 from-white to-white"
+                className="border-0 bg-white from-white to-white !text-[var(--primary-700)] shadow-lg hover:bg-white/90 hover:!text-[var(--primary-700)] [&_svg]:!text-[var(--primary-700)]"
               >
                 <Link to="/upload">
                   <Upload className="h-4 w-4" />
@@ -463,7 +461,7 @@ export function HomePage() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="border-white/30 text-white hover:bg-white/10 hover:border-white/50"
+                className="border-white/30 !text-white hover:border-white/50 hover:bg-white/10 hover:!text-white [&_svg]:!text-white"
               >
                 <Link to="/lien-he">
                   Liên hệ hỗ trợ

@@ -18,13 +18,13 @@ export function AdminShell() {
         <div>
           <div className="eyebrow">Khu vực quản trị</div>
           <h1 className="mt-2 font-heading text-2xl font-bold text-[var(--foreground)]">
-            Quản trị xuất bản phẩm
+            Quản trị phát hành phẩm
           </h1>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <NavLink to="/admin/publications" className={navClassName}>
             <ScrollText className="h-4 w-4" />
-            Danh sách
+            Danh mục
           </NavLink>
           <NavLink to="/admin/history" className={navClassName}>
             <History className="h-4 w-4" />

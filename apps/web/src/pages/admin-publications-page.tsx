@@ -84,7 +84,7 @@ export function AdminPublicationsPage() {
         <CardHeader>
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <CardTitle>Danh sách xuất bản phẩm</CardTitle>
+              <CardTitle>Danh mục phát hành phẩm</CardTitle>
               <CardDescription>
                 Tìm kiếm theo tiêu đề hoặc tác giả, sau đó thao tác phát hành
                 hoặc gỡ bỏ mềm với ghi chú bắt buộc.
@@ -193,7 +193,7 @@ export function AdminPublicationsPage() {
                                 disabled={deleteMutation.isPending}
                                 onClick={async () => {
                                   const shouldDelete = window.confirm(
-                                    "Bạn có chắc muốn xóa hẳn bản ghi xuất bản phẩm này?",
+                                    "Bạn có chắc muốn xóa hẳn bản ghi phát hành phẩm này?",
                                   );
                                   if (!shouldDelete) return;
                                   await deleteMutation.mutateAsync(item.id);

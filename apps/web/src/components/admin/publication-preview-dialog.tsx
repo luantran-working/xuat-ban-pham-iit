@@ -23,11 +23,11 @@ export function PublicationPreviewDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] min-w-5xl overflow-hidden">
         <DialogHeader>
-          <DialogTitle>Preview xuất bản phẩm</DialogTitle>
+          <DialogTitle>Preview phát hành phẩm</DialogTitle>
           <DialogDescription>
             {publication
               ? `Đang xem tệp đính kèm của: ${publication.title}`
-              : "Chọn một xuất bản phẩm trong bảng để xem trước."}
+              : "Chọn một phát hành phẩm trong bảng để xem trước."}
           </DialogDescription>
         </DialogHeader>
 
@@ -38,7 +38,7 @@ export function PublicationPreviewDialog({
             ))
           ) : (
             <div className="rounded-sm border border-dashed border-[var(--border-strong)] p-8 text-center text-[var(--muted-foreground)]">
-              Xuất bản phẩm này chưa có tệp đính kèm để preview.
+              Phát hành phẩm này chưa có tệp đính kèm để preview.
             </div>
           )}
         </div>

@@ -23,6 +23,6 @@ describe('PublicationCard', () => {
     );
 
     expect(screen.getByText('Tạm ngưng')).toBeInTheDocument();
-    expect(screen.getByText('Nội dung không còn khả dụng')).toBeInTheDocument();
+    expect(screen.getByText('Đã khóa')).toBeInTheDocument();
   });
 });

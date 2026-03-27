@@ -78,7 +78,7 @@ export class PublicationsService {
             {
               action: PublicationHistoryAction.UPLOAD,
               actor: PUBLIC_ACTOR,
-              note: 'Tải lên xuất bản phẩm mới và chờ duyệt.',
+              note: 'Tải lên phát hành phẩm mới và chờ duyệt.',
               nextStatus: PrismaPublicationStatus.PENDING,
             },
           ],
@@ -154,7 +154,7 @@ export class PublicationsService {
       !publication ||
       publication.status === PrismaPublicationStatus.PENDING
     ) {
-      throw new NotFoundException('Không tìm thấy xuất bản phẩm.');
+      throw new NotFoundException('Không tìm thấy phát hành phẩm.');
     }
 
     if (publication.status === PrismaPublicationStatus.SUSPENDED) {
@@ -195,7 +195,7 @@ export class PublicationsService {
     });
 
     if (!publication) {
-      throw new NotFoundException('Không tìm thấy xuất bản phẩm.');
+      throw new NotFoundException('Không tìm thấy phát hành phẩm.');
     }
 
     if (
@@ -203,7 +203,7 @@ export class PublicationsService {
       publication.status !== PrismaPublicationStatus.PUBLISHED
     ) {
       throw new ForbiddenException(
-        'Tệp chỉ khả dụng khi xuất bản phẩm đã phát hành.',
+        'Tệp chỉ khả dụng khi phát hành phẩm đã phát hành.',
       );
     }
 
@@ -261,7 +261,7 @@ export class PublicationsService {
     });
 
     if (!publication) {
-      throw new NotFoundException('Không tìm thấy xuất bản phẩm.');
+      throw new NotFoundException('Không tìm thấy phát hành phẩm.');
     }
 
     const validatedStatus = transitionPublicationStatus(
@@ -307,7 +307,7 @@ export class PublicationsService {
     });
 
     if (!publication) {
-      throw new NotFoundException('Không tìm thấy xuất bản phẩm.');
+      throw new NotFoundException('Không tìm thấy phát hành phẩm.');
     }
 
     const items = await this.prisma.publicationHistory.findMany({
@@ -327,7 +327,7 @@ export class PublicationsService {
     });
 
     if (!publication) {
-      throw new NotFoundException('Không tìm thấy xuất bản phẩm.');
+      throw new NotFoundException('Không tìm thấy phát hành phẩm.');
     }
 
     await this.prisma.publication.delete({
@@ -353,7 +353,7 @@ export class PublicationsService {
     });
 
     if (!publication) {
-      throw new NotFoundException('Không tìm thấy xuất bản phẩm.');
+      throw new NotFoundException('Không tìm thấy phát hành phẩm.');
     }
 
     const history = await this.prisma.publicationHistory.findUnique({

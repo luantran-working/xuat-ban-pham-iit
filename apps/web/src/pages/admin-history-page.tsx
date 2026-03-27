@@ -84,7 +84,7 @@ export function AdminHistoryPage() {
               <CardTitle>Lịch sử ghi nhận</CardTitle>
               <CardDescription>
                 Theo dõi đầy đủ quá trình tải lên, phát hành, cập nhật và tạm
-                ngưng của từng xuất bản phẩm.
+                ngưng của từng phát hành phẩm.
               </CardDescription>
             </div>
             <div className="relative w-full max-w-md">

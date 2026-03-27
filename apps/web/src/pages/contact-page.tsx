@@ -47,13 +47,13 @@ const supportScenarios = [
     icon: <HelpCircle className="h-5 w-5" />,
     title: "Hướng dẫn sử dụng",
     description:
-      "Cần hỗ trợ thao tác tải lên, tra cứu xuất bản phẩm hoặc quy trình kiểm duyệt.",
+      "Cần hỗ trợ thao tác tải lên, tra cứu phát hành phẩm hoặc quy trình đặc duyệt.",
   },
   {
     icon: <FileQuestion className="h-5 w-5" />,
     title: "Thắc mắc về nội dung",
     description:
-      "Cần làm rõ trạng thái xuất bản phẩm, lý do tạm ngưng hoặc điều kiện phát hành.",
+      "Cần làm rõ trạng thái phát hành phẩm, lý do tạm ngưng hoặc điều kiện phát hành.",
   },
   {
     icon: <MessageSquare className="h-5 w-5" />,
@@ -79,7 +79,7 @@ const companyInfo = [
     icon: <Send className="h-5 w-5" />,
     title: "Phạm vi tiếp nhận",
     content:
-      "Hỗ trợ thông tin liên hệ, phối hợp vận hành và trao đổi về xuất bản phẩm.",
+      "Hỗ trợ thông tin liên hệ, phối hợp vận hành và trao đổi về phát hành phẩm.",
   },
   {
     icon: <Workflow className="h-5 w-5" />,
@@ -111,7 +111,7 @@ export function ContactPage() {
                 </span>
               </h1>
               <p className="body-text max-w-xl">
-                Nếu bạn cần trao đổi về cổng xuất bản phẩm điện tử, quy trình
+                Nếu bạn cần trao đổi về cổng phát hành phẩm điện tử, quy trình
                 công bố nội dung hoặc thông tin của đơn vị vận hành, các kênh
                 dưới đây là đầu mối liên hệ chính thức.
               </p>
@@ -304,13 +304,13 @@ export function ContactPage() {
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-sm text-white/80 leading-relaxed">
               Đội ngũ IIT luôn sẵn sàng hỗ trợ bạn trong quá trình sử dụng
-              hệ thống xuất bản phẩm điện tử.
+              hệ thống phát hành phẩm điện tử.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Button
                 asChild
                 size="lg"
-                className="bg-white text-[var(--primary-700)] hover:bg-white/90 shadow-lg border-0 from-white to-white"
+                className="border-0 bg-white from-white to-white !text-[var(--primary-700)] shadow-lg hover:bg-white/90 hover:!text-[var(--primary-700)] [&_svg]:!text-[var(--primary-700)]"
               >
                 <a href="mailto:info@iit.vn">
                   <Mail className="h-4 w-4" />
@@ -321,7 +321,7 @@ export function ContactPage() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="border-white/30 text-white hover:bg-white/10 hover:border-white/50"
+                className="border-white/30 !text-white hover:border-white/50 hover:bg-white/10 hover:!text-white [&_svg]:!text-white"
               >
                 <a href="tel:0368909968">
                   <Phone className="h-4 w-4" />

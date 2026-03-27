@@ -29,7 +29,7 @@ type LoginState = {
 
 const navLinks = [
   { to: "/", label: "Trang chủ", end: true },
-  { to: "/danh-sach-xuat-ban", label: "Danh sách xuất bản" },
+  { to: "/danh-sach-xuat-ban", label: "Danh mục phát hành" },
   { to: "/gioi-thieu", label: "Giới thiệu" },
   { to: "/lien-he", label: "Liên hệ" },
   { to: "/upload", label: "Tải lên" },
@@ -126,10 +126,10 @@ export function SiteShell() {
             </div>
             <div>
               <div className="font-heading text-base font-bold tracking-tight text-[var(--foreground)]">
-                IIT Publications
+                IIT
               </div>
               <div className="text-[11px] text-[var(--muted-foreground)] leading-tight">
-                Cổng xuất bản phẩm điện tử
+                Phát hành phẩm điện tử
               </div>
             </div>
           </Link>
@@ -234,18 +234,16 @@ export function SiteShell() {
                   <BookOpen className="h-5 w-5 text-[var(--primary-300)]" />
                 </div>
                 <div>
-                  <div className="font-heading text-lg font-bold">
-                    IIT Publications
-                  </div>
+                  <div className="font-heading text-lg font-bold">IIT</div>
                   <div className="text-xs text-white/60">
-                    Cổng xuất bản phẩm điện tử
+                    Phát hành phẩm điện tử
                   </div>
                 </div>
               </div>
               <p className="max-w-md text-sm leading-relaxed text-white/70">
-                Hệ thống xuất bản phẩm điện tử được xây dựng nhằm hỗ trợ tiếp
-                nhận, kiểm duyệt, phát hành và công bố nội dung số theo quy
-                trình quản trị thống nhất, rõ trạng thái và lưu vết đầy đủ.
+                Hệ thống phát hành phẩm điện tử được xây dựng nhằm hỗ trợ tiếp
+                nhận, đặc duyệt, phát hành và công bố nội dung số theo quy trình
+                quản trị thống nhất, rõ trạng thái và lưu vết đầy đủ.
               </p>
               <div className="flex items-center gap-4">
                 <a
@@ -280,7 +278,7 @@ export function SiteShell() {
               <div className="space-y-3">
                 {[
                   { to: "/", label: "Trang chủ" },
-                  { to: "/danh-sach-xuat-ban", label: "Danh sách xuất bản" },
+                  { to: "/danh-sach-xuat-ban", label: "Danh mục phát hành" },
                   { to: "/gioi-thieu", label: "Giới thiệu" },
                   { to: "/upload", label: "Tải lên tài liệu" },
                   { to: "/lien-he", label: "Liên hệ" },

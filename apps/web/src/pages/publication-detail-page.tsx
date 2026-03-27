@@ -23,13 +23,13 @@ export function PublicationDetailPage() {
       <Button asChild variant="ghost" className="mb-6">
         <Link to="/">
           <ArrowLeft className="h-4 w-4" />
-          Quay lại danh sách
+          Quay lại danh mục
         </Link>
       </Button>
 
       {isLoading ? (
         <div className="rounded-sm border border-dashed border-[var(--border-strong)] p-10 text-center">
-          Đang tải chi tiết xuất bản phẩm...
+          Đang tải chi tiết phát hành phẩm...
         </div>
       ) : error ? (
         <div className="rounded-sm border border-rose-200 bg-rose-50 p-10 text-center text-rose-700">
@@ -56,7 +56,7 @@ export function PublicationDetailPage() {
                   </div>
                   <div className="flex items-center gap-3">
                     <CalendarDays className="h-4 w-4 text-[var(--accent)]" />
-                    <span>Năm xuất bản {data.publishYear}</span>
+                    <span>Năm phát hành {data.publishYear}</span>
                   </div>
                   {data.copyrightExpiryDate ? (
                     <div className="text-[var(--muted-foreground)]">
@@ -73,7 +73,7 @@ export function PublicationDetailPage() {
               <CardContent className="p-8">
                 <h2 className="font-heading text-3xl">Nội dung không còn khả dụng</h2>
                 <p className="mt-4 text-[var(--muted-foreground)]">
-                  Xuất bản phẩm này hiện đang ở trạng thái tạm ngưng nên hệ thống không cho phép
+                  Phát hành phẩm này hiện đang ở trạng thái tạm ngưng nên hệ thống không cho phép
                   xem hoặc tải nội dung.
                 </p>
               </CardContent>

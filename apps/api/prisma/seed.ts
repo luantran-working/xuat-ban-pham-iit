@@ -32,7 +32,7 @@ async function main() {
           {
             action: PublicationHistoryAction.UPLOAD,
             actor: 'Người dùng công khai',
-            note: 'Tải lên xuất bản phẩm mới.',
+            note: 'Tải lên phát hành phẩm mới.',
             nextStatus: PublicationStatus.PENDING,
           },
           {
