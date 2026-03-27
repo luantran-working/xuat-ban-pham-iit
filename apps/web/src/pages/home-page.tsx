@@ -63,7 +63,7 @@ const features = [
     icon: Users,
     title: "Đa vai trò truy cập",
     description:
-      "Hỗ trợ người gửi công khai, người xem thư viện và quản trị viên với quyền hạn phù hợp.",
+      "Hỗ trợ người gửi công khai, người xem và quản trị viên với quyền hạn phù hợp.",
   },
 ];
 
@@ -126,7 +126,7 @@ export function HomePage() {
         <div className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">
           <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
             <div className="reveal space-y-6">
-              <div className="eyebrow">Thư viện phát hành phẩm điện tử</div>
+              <div className="eyebrow">Phát hành phẩm điện tử</div>
               <h1 className="display-title text-[var(--foreground)]">
                 Nền tảng công bố và quản trị
                 <span className="text-[var(--accent)]"> phát hành phẩm </span>
