@@ -142,7 +142,7 @@ export function UploadPage() {
               <div className="reveal text-center space-y-4">
                 <div className="eyebrow">Tải lên phát hành phẩm</div>
                 <h1 className="section-title mx-auto max-w-2xl">
-                  Gửi tài liệu mới để được đặc duyệt và phát hành
+                  Gửi tài liệu mới để được đọc duyệt và phát hành
                 </h1>
                 <p className="body-text mx-auto max-w-xl">
                   Điền thông tin bên dưới và đính kèm tệp tài liệu. Phát hành
@@ -347,7 +347,7 @@ export function UploadPage() {
                       <Step number="2" title="Hàng chờ duyệt">
                         Trạng thái mặc định là <strong>Đang chờ duyệt</strong>.
                       </Step>
-                      <Step number="3" title="Đặc duyệt">
+                      <Step number="3" title="Đọc duyệt">
                         Quản trị viên xử lý: phát hành hoặc tạm ngưng.
                       </Step>
                       {uploadedStatus ? (

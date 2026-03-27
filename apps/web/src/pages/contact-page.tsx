@@ -47,7 +47,7 @@ const supportScenarios = [
     icon: <HelpCircle className="h-5 w-5" />,
     title: "Hướng dẫn sử dụng",
     description:
-      "Cần hỗ trợ thao tác tải lên, tra cứu phát hành phẩm hoặc quy trình đặc duyệt.",
+      "Cần hỗ trợ thao tác tải lên, tra cứu phát hành phẩm hoặc quy trình đọc duyệt.",
   },
   {
     icon: <FileQuestion className="h-5 w-5" />,

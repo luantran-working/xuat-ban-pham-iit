@@ -1,15 +1,15 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { AdminHistoryPage } from '@/pages/admin-history-page';
-import { fetchAdminPublications } from '@/lib/api';
-import { getAdminToken } from '@/lib/auth';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
+import { AdminHistoryPage } from "@/pages/admin-history-page";
+import { fetchAdminPublications } from "@/lib/api";
+import { getAdminToken } from "@/lib/auth";
 
-vi.mock('@/lib/api', () => ({
+vi.mock("@/lib/api", () => ({
   fetchAdminPublications: vi.fn(),
 }));
 
-vi.mock('@/lib/auth', () => ({
+vi.mock("@/lib/auth", () => ({
   getAdminToken: vi.fn(),
   clearAdminToken: vi.fn(),
 }));
@@ -32,42 +32,42 @@ function renderAdminHistoryPage() {
   );
 }
 
-describe('AdminHistoryPage', () => {
+describe("AdminHistoryPage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(getAdminToken).mockReturnValue('demo-token');
+    vi.mocked(getAdminToken).mockReturnValue("demo-token");
     vi.mocked(fetchAdminPublications).mockResolvedValue({
       items: [
         {
-          id: 'pb-1',
-          title: 'Kỷ yếu nghiên cứu IIT',
-          description: 'Ấn phẩm đặc duyệt',
-          author: 'Công ty Cổ phần IIT',
+          id: "pb-1",
+          title: "Kỷ yếu nghiên cứu IIT",
+          description: "Ấn phẩm đọc duyệt",
+          author: "Công ty Cổ phần IIT",
           publishYear: 2025,
-          copyrightExpiryDate: '2027-12-31',
-          status: 'PUBLISHED',
+          copyrightExpiryDate: "2027-12-31",
+          status: "PUBLISHED",
           isLocked: false,
-          createdAt: new Date('2026-03-24T09:00:00.000Z').toISOString(),
-          updatedAt: new Date('2026-03-24T09:00:00.000Z').toISOString(),
+          createdAt: new Date("2026-03-24T09:00:00.000Z").toISOString(),
+          updatedAt: new Date("2026-03-24T09:00:00.000Z").toISOString(),
           files: [],
           history: [
             {
-              id: 'h-1',
-              action: 'UPLOAD',
-              actor: 'Người dùng công khai',
-              note: 'Khởi tạo hồ sơ phát hành phẩm',
+              id: "h-1",
+              action: "UPLOAD",
+              actor: "Người dùng công khai",
+              note: "Khởi tạo hồ sơ phát hành phẩm",
               previousStatus: null,
-              nextStatus: 'PENDING',
-              createdAt: new Date('2026-03-24T08:00:00.000Z').toISOString(),
+              nextStatus: "PENDING",
+              createdAt: new Date("2026-03-24T08:00:00.000Z").toISOString(),
             },
             {
-              id: 'h-2',
-              action: 'PUBLISH',
-              actor: 'admin',
-              note: 'Đủ điều kiện phát hành',
-              previousStatus: 'PENDING',
-              nextStatus: 'PUBLISHED',
-              createdAt: new Date('2026-03-25T08:00:00.000Z').toISOString(),
+              id: "h-2",
+              action: "PUBLISH",
+              actor: "admin",
+              note: "Đủ điều kiện phát hành",
+              previousStatus: "PENDING",
+              nextStatus: "PUBLISHED",
+              createdAt: new Date("2026-03-25T08:00:00.000Z").toISOString(),
             },
           ],
         },
@@ -75,12 +75,16 @@ describe('AdminHistoryPage', () => {
     });
   });
 
-  it('hiển thị riêng danh mục lịch sử ghi nhận của phát hành phẩm', async () => {
+  it("hiển thị riêng danh mục lịch sử ghi nhận của phát hành phẩm", async () => {
     renderAdminHistoryPage();
 
-    expect(await screen.findByText('Lịch sử ghi nhận')).toBeInTheDocument();
-    expect(await screen.findByText('Đủ điều kiện phát hành')).toBeInTheDocument();
-    expect(screen.getByText('Khởi tạo hồ sơ phát hành phẩm')).toBeInTheDocument();
-    expect(screen.getAllByText('Kỷ yếu nghiên cứu IIT')).toHaveLength(2);
+    expect(await screen.findByText("Lịch sử ghi nhận")).toBeInTheDocument();
+    expect(
+      await screen.findByText("Đủ điều kiện phát hành"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Khởi tạo hồ sơ phát hành phẩm"),
+    ).toBeInTheDocument();
+    expect(screen.getAllByText("Kỷ yếu nghiên cứu IIT")).toHaveLength(2);
   });
 });

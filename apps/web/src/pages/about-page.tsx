@@ -49,7 +49,7 @@ const coreValues = [
 const capabilities = [
   {
     icon: FileCheck2,
-    title: "Đặc duyệt nội dung",
+    title: "Đọc duyệt nội dung",
     description:
       "Rà soát tính phù hợp, kiểm tra bản quyền và xác nhận điều kiện phát hành.",
   },
@@ -116,7 +116,7 @@ const stats = [
   { value: "24/7", label: "Hệ thống hoạt động" },
   { value: "100%", label: "Lưu vết đầy đủ" },
   { value: "5+", label: "Định dạng hỗ trợ" },
-  { value: "2 lớp", label: "Đặc duyệt" },
+  { value: "2 lớp", label: "Đọc duyệt" },
 ];
 
 export function AboutPage() {
@@ -278,7 +278,7 @@ export function AboutPage() {
               </h2>
               <p className="body-text">
                 Các bước được tổ chức để vừa tạo thuận lợi cho người dùng gửi
-                nội dung, vừa hỗ trợ quản trị viên đặc duyệt có kiểm soát.
+                nội dung, vừa hỗ trợ quản trị viên đọc duyệt có kiểm soát.
               </p>
               <div className="rounded-[var(--radius)] bg-[var(--accent-soft)] p-5">
                 <div className="flex items-center gap-3">

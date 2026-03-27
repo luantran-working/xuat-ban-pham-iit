@@ -66,7 +66,7 @@ export function AdminLoginDialog({
                 Đăng nhập quản trị
               </DialogTitle>
               <DialogDescription className="text-sm leading-7">
-                Dành cho quản trị viên đặc duyệt, phát hành và quản lý lịch sử
+                Dành cho quản trị viên đọc duyệt, phát hành và quản lý lịch sử
                 thao tác của phát hành xuất bản phẩm điện tử.
               </DialogDescription>
             </DialogHeader>
@@ -79,7 +79,7 @@ export function AdminLoginDialog({
                   </div>
                   <div>
                     <div className="font-heading text-sm font-semibold">
-                      Đặc duyệt tập trung
+                      Đọc duyệt tập trung
                     </div>
                     <p className="mt-1 text-sm leading-7 text-[var(--muted-foreground)]">
                       Rà soát trạng thái bản quyền, quyết định phát hành hoặc

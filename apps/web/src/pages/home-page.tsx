@@ -31,7 +31,7 @@ const filters: Array<{ label: string; value: "ALL" | PublicationStatus }> = [
 const features = [
   {
     icon: FileCheck2,
-    title: "Đặc duyệt chặt chẽ",
+    title: "Đọc duyệt chặt chẽ",
     description:
       "Mọi xuất bản phẩm điện tử đều trải qua quy trình rà soát, xác nhận bản quyền trước khi được công bố.",
   },
@@ -76,7 +76,7 @@ const processSteps = [
   },
   {
     number: "02",
-    title: "Chờ đặc duyệt",
+    title: "Chờ đọc duyệt",
     description:
       "Hệ thống gán trạng thái chờ duyệt và thông báo đến quản trị viên.",
   },
@@ -192,7 +192,7 @@ export function HomePage() {
             </h2>
             <div className="mt-4 flex justify-center">
               <p className="body-text max-w-2xl text-center">
-                Từ tiếp nhận hồ sơ, đặc duyệt nội dung đến phát hành công khai –
+                Từ tiếp nhận hồ sơ, đọc duyệt nội dung đến phát hành công khai –
                 tất cả trong một hệ thống duy nhất.
               </p>
             </div>
@@ -364,7 +364,7 @@ export function HomePage() {
               </p>
               <div className="space-y-4">
                 {[
-                  "Quy trình đặc duyệt hai lớp: nội dung và bản quyền",
+                  "Quy trình đọc duyệt hai lớp: nội dung và bản quyền",
                   "Hỗ trợ đa định dạng: PDF, ảnh, video, audio",
                   "Lịch sử thao tác chi tiết, minh bạch",
                   "Giao diện thân thiện, dễ sử dụng",

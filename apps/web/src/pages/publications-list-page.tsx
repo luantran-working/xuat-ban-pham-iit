@@ -40,7 +40,7 @@ export function PublicationsListPage() {
               <h1 className="section-title">Tìm kiếm xuất bản phẩm điện tử</h1>
               <p className="body-text mt-2 max-w-xl">
                 Tìm kiếm và tra cứu các phát hành xuất bản phẩm điện tử đã được
-                đặc duyệt và phát hành trên hệ thống.
+                đọc duyệt và phát hành trên hệ thống.
               </p>
             </div>
             <Button asChild variant="outline">
