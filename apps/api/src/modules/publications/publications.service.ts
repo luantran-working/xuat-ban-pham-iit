@@ -407,8 +407,6 @@ export class PublicationsService {
     },
     includeHistories: boolean,
   ) {
-    const fileContentBasePath = `/publications/${publication.id}`;
-
     return {
       id: publication.id,
       title: publication.title,
@@ -421,14 +419,17 @@ export class PublicationsService {
       createdAt: publication.createdAt,
       updatedAt: publication.updatedAt,
       files: publication.files.map((file) => ({
+        ...this.buildPublicFileLinks(
+          publication.id,
+          file.id,
+          file.originalName,
+        ),
         id: file.id,
         originalName: file.originalName,
         mimeType: file.mimeType,
         extension: file.extension,
         size: file.size,
         previewType: this.getPreviewType(file.mimeType),
-        previewUrl: `${fileContentBasePath}/files/${file.id}/content`,
-        downloadUrl: `${fileContentBasePath}/files/${file.id}/content?download=1`,
         createdAt: file.createdAt,
       })),
       history: includeHistories
@@ -481,5 +482,19 @@ export class PublicationsService {
   private resolveStoredFileAbsolutePath(relativePath: string) {
     const projectRoot = resolve(process.cwd(), '..', '..');
     return resolve(projectRoot, relativePath);
+  }
+
+  private buildPublicFileLinks(
+    publicationId: string,
+    fileId: string,
+    originalName: string,
+  ) {
+    const encodedName = encodeURIComponent(originalName);
+    const basePath = `/publications/${publicationId}/files/${fileId}/content/${encodedName}`;
+
+    return {
+      previewUrl: basePath,
+      downloadUrl: `${basePath}?download=1`,
+    };
   }
 }

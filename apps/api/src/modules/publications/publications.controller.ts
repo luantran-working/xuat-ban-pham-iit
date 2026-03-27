@@ -82,6 +82,26 @@ export class PublicationsController {
     @Query('download') download: string | undefined,
     @Res({ passthrough: true }) response: Response,
   ) {
+    return this.streamPublicationFile(id, fileId, download, response);
+  }
+
+  @Get(':id/files/:fileId/content/:filename')
+  async getPublicationFileWithName(
+    @Param('id') id: string,
+    @Param('fileId') fileId: string,
+    @Param('filename') _filename: string,
+    @Query('download') download: string | undefined,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    return this.streamPublicationFile(id, fileId, download, response);
+  }
+
+  private async streamPublicationFile(
+    id: string,
+    fileId: string,
+    download: string | undefined,
+    response: Response,
+  ) {
     const { file, absolutePath } =
       await this.publicationsService.getFileContent(id, fileId);
 
