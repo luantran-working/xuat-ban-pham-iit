@@ -130,7 +130,6 @@ export function HomePage() {
               <h1 className="display-title text-[var(--foreground)]">
                 Nền tảng công bố và quản trị
                 <span className="text-[var(--accent)]"> phát hành phẩm </span>
-                hiện đại
               </h1>
               <p className="body-text max-w-xl">
                 Tra cứu nhanh theo tiêu đề hoặc tác giả, xem trực tiếp các định
@@ -267,7 +266,7 @@ export function HomePage() {
             <div className="mt-3 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
               <div>
                 <h2 className="section-title">
-                  Danh mục phát hành phẩm công bố
+                  Danh mục xuất bản phẩm điện tử phát hành công bố
                 </h2>
                 <p className="body-text mt-2 max-w-xl">
                   Tìm kiếm và tra cứu các phát hành phẩm điện tử đã được đặc
@@ -315,7 +314,7 @@ export function HomePage() {
             {isLoading ? (
               <div className="rounded-[var(--radius)] border border-dashed border-[var(--border-strong)] p-12 text-center text-[var(--muted-foreground)]">
                 <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-2 border-[var(--primary-200)] border-t-[var(--accent)]" />
-                Đang tải danh mục phát hành phẩm...
+                Đang tải danh mục xuất bản phẩm điện tử phát hành...
               </div>
             ) : error ? (
               <div className="rounded-[var(--radius)] border border-rose-200 bg-rose-50 p-12 text-center text-rose-700">
@@ -350,9 +349,7 @@ export function HomePage() {
           <div className="reveal grid gap-12 lg:grid-cols-2 lg:items-center">
             <div className="space-y-6">
               <div className="eyebrow">Tại sao chọn IIT</div>
-              <h2 className="section-title">
-                Nền tảng tin cậy cho việc phát hành
-              </h2>
+              <h2 className="section-title">Nền tảng xuất bản phẩm điện tử</h2>
               <p className="body-text">
                 Được thiết kế cho các tổ chức cần một quy trình tiếp nhận, đặc
                 duyệt và phát hành nội dung số rõ ràng, minh bạch và có kiểm
@@ -402,7 +399,7 @@ export function HomePage() {
                   <div className="flex items-center justify-between rounded-[var(--radius-sm)] bg-white/10 p-4 backdrop-blur-sm">
                     <div>
                       <div className="text-xs text-white/70">
-                        Tổng phát hành phẩm
+                        Tổng số xuất bản phẩm điện tử
                       </div>
                       <div className="mt-1 font-heading text-2xl font-bold">
                         {stats.total}+

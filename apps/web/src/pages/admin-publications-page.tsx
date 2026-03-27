@@ -84,7 +84,7 @@ export function AdminPublicationsPage() {
         <CardHeader>
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <CardTitle>Danh mục phát hành phẩm</CardTitle>
+              <CardTitle>Tìm kiếm bản phẩm điện tử phát hành</CardTitle>
               <CardDescription>
                 Tìm kiếm theo tiêu đề hoặc tác giả, sau đó thao tác phát hành
                 hoặc gỡ bỏ mềm với ghi chú bắt buộc.

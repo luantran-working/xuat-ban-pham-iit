@@ -37,7 +37,9 @@ export function PublicationsListPage() {
           <div className="eyebrow">Dữ liệu số</div>
           <div className="mt-3 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <h1 className="section-title">Danh mục phát hành phẩm công bố</h1>
+              <h1 className="section-title">
+                Danh mục xuất bản phẩm điện tử phát hành công bố
+              </h1>
               <p className="body-text mt-2 max-w-xl">
                 Tìm kiếm và tra cứu các phát hành phẩm điện tử đã được đặc duyệt
                 và phát hành trên hệ thống.
@@ -82,7 +84,7 @@ export function PublicationsListPage() {
           {isLoading ? (
             <div className="rounded-[var(--radius)] border border-dashed border-[var(--border-strong)] p-12 text-center text-[var(--muted-foreground)]">
               <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-2 border-[var(--primary-200)] border-t-[var(--accent)]" />
-              Đang tải danh mục phát hành phẩm...
+              Đang tải danh mục xuất bản phẩm điện tử phát hành...
             </div>
           ) : error ? (
             <div className="rounded-[var(--radius)] border border-rose-200 bg-rose-50 p-12 text-center text-rose-700">
