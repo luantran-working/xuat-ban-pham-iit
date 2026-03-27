@@ -7,6 +7,7 @@ import {
   fetchAdminPublications,
   reviewPublication,
 } from "@/lib/api";
+import { PublicationPreviewDialog } from "@/components/admin/publication-preview-dialog";
 import { ReviewDialog } from "@/components/admin/review-dialog";
 import { StatusBadge } from "@/components/status-badge";
 import { Button } from "@/components/ui/button";
@@ -40,12 +41,18 @@ export function AdminPublicationsPage() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState<PublicationStatus | "ALL">("ALL");
   const [dialog, setDialog] = useState<DialogState>(null);
+  const [previewPublicationId, setPreviewPublicationId] = useState<
+    string | null
+  >(null);
   const deferredSearch = useDeferredValue(search);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["admin-publications", deferredSearch, status],
     queryFn: () => fetchAdminPublications(token, deferredSearch, status),
   });
+
+  const previewPublication =
+    data?.items.find((item) => item.id === previewPublicationId) ?? null;
 
   const reviewMutation = useMutation({
     mutationFn: async ({
@@ -146,6 +153,13 @@ export function AdminPublicationsPage() {
                           <TableCell>{item.files.length}</TableCell>
                           <TableCell className="text-right">
                             <div className="flex justify-end gap-2">
+                              <Button
+                                variant="secondary"
+                                size="sm"
+                                onClick={() => setPreviewPublicationId(item.id)}
+                              >
+                                Xem preview
+                              </Button>
                               {item.status !== "PUBLISHED" ? (
                                 <Button
                                   size="sm"
@@ -216,6 +230,15 @@ export function AdminPublicationsPage() {
           }}
         />
       ) : null}
+
+      <PublicationPreviewDialog
+        open={Boolean(previewPublicationId && previewPublication)}
+        onOpenChange={(open) => {
+          if (!open) setPreviewPublicationId(null);
+        }}
+        publication={previewPublication}
+        adminToken={token}
+      />
     </div>
   );
 }

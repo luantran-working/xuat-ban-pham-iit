@@ -6,8 +6,12 @@ import {
   Param,
   Patch,
   Query,
+  Res,
+  StreamableFile,
   UseGuards,
 } from '@nestjs/common';
+import { createReadStream } from 'node:fs';
+import type { Response } from 'express';
 import { AdminAuthGuard } from '../auth/admin-auth.guard';
 import { ListAdminPublicationsDto } from './dto/list-publications.dto';
 import { ReviewPublicationDto } from './dto/review-publication.dto';
@@ -27,6 +31,25 @@ export class AdminPublicationsController {
   @Get(':id/history')
   getAdminHistory(@Param('id') id: string) {
     return this.publicationsService.getAdminHistory(id);
+  }
+
+  @Get(':id/files/:fileId/content')
+  async getAdminPublicationFile(
+    @Param('id') id: string,
+    @Param('fileId') fileId: string,
+    @Query('download') download: string | undefined,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const { file, absolutePath } =
+      await this.publicationsService.getAdminFileContent(id, fileId);
+
+    response.setHeader('Content-Type', file.mimeType);
+    response.setHeader(
+      'Content-Disposition',
+      `${download ? 'attachment' : 'inline'}; filename*=UTF-8''${encodeURIComponent(file.originalName)}`,
+    );
+
+    return new StreamableFile(createReadStream(absolutePath));
   }
 
   @Delete(':id')

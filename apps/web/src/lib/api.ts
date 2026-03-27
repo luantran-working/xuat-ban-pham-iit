@@ -25,7 +25,14 @@ async function parseJson<T>(response: Response): Promise<T> {
 }
 
 export function resolveApiUrl(path: string) {
-  if (path.startsWith("http")) return path;
+  if (
+    path.startsWith("http") ||
+    path.startsWith("blob:") ||
+    path.startsWith("data:")
+  ) {
+    return path;
+  }
+
   return `${API_BASE_URL}${path}`;
 }
 

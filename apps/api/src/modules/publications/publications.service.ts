@@ -175,6 +175,18 @@ export class PublicationsService {
   }
 
   async getFileContent(publicationId: string, fileId: string) {
+    return this.getPublicationFileContent(publicationId, fileId, true);
+  }
+
+  async getAdminFileContent(publicationId: string, fileId: string) {
+    return this.getPublicationFileContent(publicationId, fileId, true);
+  }
+
+  private async getPublicationFileContent(
+    publicationId: string,
+    fileId: string,
+    allowNonPublished: boolean,
+  ) {
     const publication = await this.prisma.publication.findUnique({
       where: { id: publicationId },
       include: {
@@ -182,8 +194,12 @@ export class PublicationsService {
       },
     });
 
+    if (!publication) {
+      throw new NotFoundException('Không tìm thấy xuất bản phẩm.');
+    }
+
     if (
-      !publication ||
+      !allowNonPublished &&
       publication.status !== PrismaPublicationStatus.PUBLISHED
     ) {
       throw new ForbiddenException(
@@ -199,7 +215,7 @@ export class PublicationsService {
 
     return {
       file,
-      absolutePath: resolve(process.cwd(), file.relativePath),
+      absolutePath: this.resolveStoredFileAbsolutePath(file.relativePath),
     };
   }
 
@@ -319,7 +335,9 @@ export class PublicationsService {
     });
 
     for (const file of publication.files) {
-      const absolutePath = resolve(process.cwd(), file.relativePath);
+      const absolutePath = this.resolveStoredFileAbsolutePath(
+        file.relativePath,
+      );
       if (existsSync(absolutePath)) {
         rmSync(absolutePath, { force: true });
       }
@@ -389,6 +407,10 @@ export class PublicationsService {
     },
     includeHistories: boolean,
   ) {
+    const fileContentBasePath = includeHistories
+      ? `/admin/publications/${publication.id}`
+      : `/publications/${publication.id}`;
+
     return {
       id: publication.id,
       title: publication.title,
@@ -407,8 +429,8 @@ export class PublicationsService {
         extension: file.extension,
         size: file.size,
         previewType: this.getPreviewType(file.mimeType),
-        previewUrl: `/publications/${publication.id}/files/${file.id}/content`,
-        downloadUrl: `/publications/${publication.id}/files/${file.id}/content?download=1`,
+        previewUrl: `${fileContentBasePath}/files/${file.id}/content`,
+        downloadUrl: `${fileContentBasePath}/files/${file.id}/content?download=1`,
         createdAt: file.createdAt,
       })),
       history: includeHistories
@@ -456,5 +478,10 @@ export class PublicationsService {
   private normalizeRelativePath(filePath: string) {
     const projectRoot = resolve(process.cwd(), '..', '..');
     return filePath.replace(`${projectRoot}\\`, '').replaceAll('\\', '/');
+  }
+
+  private resolveStoredFileAbsolutePath(relativePath: string) {
+    const projectRoot = resolve(process.cwd(), '..', '..');
+    return resolve(projectRoot, relativePath);
   }
 }

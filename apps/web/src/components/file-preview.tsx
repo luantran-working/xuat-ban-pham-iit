@@ -23,7 +23,11 @@ export function FilePreview({ file }: { file: PublicationFileItem }) {
   );
   const officePreviewUrl =
     canPreviewOfficeFile && file.previewType === "file"
-      ? `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(previewUrl)}`
+      ? `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(previewUrl)}`
+      : null;
+  const googlePreviewUrl =
+    canPreviewOfficeFile && file.previewType === "file"
+      ? `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(previewUrl)}`
       : null;
 
   return (
@@ -75,12 +79,34 @@ export function FilePreview({ file }: { file: PublicationFileItem }) {
         {file.previewType === "file" && (
           <div className="space-y-4">
             {canPreviewOfficeFile ? (
-              <div className="overflow-hidden rounded-sm border border-[var(--border)] bg-white">
-                <iframe
-                  src={officePreviewUrl ?? undefined}
-                  title={`Preview ${file.originalName}`}
-                  className="h-[520px] w-full"
-                />
+              <div className="space-y-3">
+                <div className="overflow-hidden rounded-sm border border-[var(--border)] bg-white">
+                  <iframe
+                    src={officePreviewUrl ?? undefined}
+                    title={`Preview ${file.originalName}`}
+                    className="h-[520px] w-full"
+                  />
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <a
+                    href={officePreviewUrl ?? undefined}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Button type="button" variant="outline" size="sm">
+                      Mở bằng Microsoft Viewer
+                    </Button>
+                  </a>
+                  <a
+                    href={googlePreviewUrl ?? undefined}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Button type="button" variant="outline" size="sm">
+                      Mở bằng Google Viewer
+                    </Button>
+                  </a>
+                </div>
               </div>
             ) : null}
 
@@ -98,7 +124,7 @@ export function FilePreview({ file }: { file: PublicationFileItem }) {
                 <p className="font-medium">{file.originalName}</p>
                 <p className="mt-1 text-sm text-[var(--muted-foreground)]">
                   {canPreviewOfficeFile
-                    ? "Preview tài liệu đã được bật. Nếu hiển thị không chính xác, bạn có thể tải xuống để xem đầy đủ."
+                    ? "Nếu khung xem không tải được, hãy dùng nút Microsoft/Google Viewer hoặc tải xuống để xem đầy đủ."
                     : "Loại tệp này chưa có preview trực tiếp, vui lòng tải xuống để xem."}
                 </p>
               </div>

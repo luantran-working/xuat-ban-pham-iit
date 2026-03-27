@@ -208,4 +208,48 @@ describe('Publication workflow (e2e)', () => {
     );
     expect(persistedPublication.files[0].originalName).toBe(expectedFilename);
   });
+
+  it('cho phép truy cập public theo link tệp để hỗ trợ preview trước khi phát hành', async () => {
+    const uniqueSuffix = Date.now();
+    const title = `Kiểm thử preview admin ${uniqueSuffix}`;
+
+    const uploadResponse = await request(app.getHttpServer())
+      .post('/publications/upload')
+      .field('title', title)
+      .field('description', 'Kiểm thử preview nội dung tệp phía admin')
+      .field('author', 'Phòng Kiểm thử IIT')
+      .field('publishYear', '2026')
+      .field('copyrightExpiryDate', '2030-12-31')
+      .attach(
+        'files',
+        Buffer.from('%PDF-1.4 pending preview content', 'utf8'),
+        {
+          filename: 'pending-preview.pdf',
+          contentType: 'application/pdf',
+        },
+      )
+      .expect(201);
+
+    const publicationId = uploadResponse.body.id as string;
+    const fileId = uploadResponse.body.files[0].id as string;
+
+    await request(app.getHttpServer())
+      .get(`/publications/${publicationId}/files/${fileId}/content`)
+      .expect(200)
+      .expect((response) => {
+        expect(response.headers['content-type']).toContain('application/pdf');
+      });
+
+    await request(app.getHttpServer())
+      .get(`/admin/publications/${publicationId}/files/${fileId}/content`)
+      .expect(401);
+
+    await request(app.getHttpServer())
+      .get(`/admin/publications/${publicationId}/files/${fileId}/content`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(200)
+      .expect((response) => {
+        expect(response.headers['content-type']).toContain('application/pdf');
+      });
+  });
 });
