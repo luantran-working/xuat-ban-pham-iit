@@ -407,9 +407,7 @@ export class PublicationsService {
     },
     includeHistories: boolean,
   ) {
-    const fileContentBasePath = includeHistories
-      ? `/admin/publications/${publication.id}`
-      : `/publications/${publication.id}`;
+    const fileContentBasePath = `/publications/${publication.id}`;
 
     return {
       id: publication.id,

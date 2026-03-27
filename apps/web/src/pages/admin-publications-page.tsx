@@ -237,7 +237,6 @@ export function AdminPublicationsPage() {
           if (!open) setPreviewPublicationId(null);
         }}
         publication={previewPublication}
-        adminToken={token}
       />
     </div>
   );
