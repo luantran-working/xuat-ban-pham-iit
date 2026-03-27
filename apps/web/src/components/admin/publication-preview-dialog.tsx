@@ -21,7 +21,7 @@ export function PublicationPreviewDialog({
 }: PublicationPreviewDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] max-w-5xl overflow-hidden">
+      <DialogContent className="max-h-[90vh] min-w-5xl overflow-hidden">
         <DialogHeader>
           <DialogTitle>Preview xuất bản phẩm</DialogTitle>
           <DialogDescription>
