@@ -67,7 +67,7 @@ export function AdminLoginDialog({
               </DialogTitle>
               <DialogDescription className="text-sm leading-7">
                 Dành cho quản trị viên đặc duyệt, phát hành và quản lý lịch sử
-                thao tác của phát hành phẩm điện tử.
+                thao tác của phát hành xuất bản phẩm điện tử.
               </DialogDescription>
             </DialogHeader>
 

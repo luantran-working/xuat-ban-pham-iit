@@ -134,10 +134,10 @@ export function AboutPage() {
                 và công bố minh bạch
               </h1>
               <p className="body-text max-w-xl">
-                Phát hành phẩm điện tử của Công ty Cổ phần IIT được xây dựng để
-                tiếp nhận tài liệu từ người dùng công khai, tổ chức quy trình rà
-                soát tập trung và phát hành nội dung trên một dữ liệu số rõ
-                trạng thái, dễ theo dõi.
+                Phát hành xuất bản phẩm điện tử của Công ty Cổ phần IIT được xây
+                dựng để tiếp nhận tài liệu từ người dùng công khai, tổ chức quy
+                trình rà soát tập trung và phát hành nội dung trên một dữ liệu
+                số rõ trạng thái, dễ theo dõi.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Button asChild size="lg">
@@ -337,7 +337,7 @@ export function AboutPage() {
                 size="lg"
                 className="border-0 bg-white from-white to-white !text-[var(--primary-700)] shadow-lg hover:bg-white/90 hover:!text-[var(--primary-700)] [&_svg]:!text-[var(--primary-700)]"
               >
-                <Link to="/upload">Gửi phát hành phẩm</Link>
+                <Link to="/upload">Gửi phát hành xuất bản phẩm điện tử</Link>
               </Button>
               <Button
                 asChild

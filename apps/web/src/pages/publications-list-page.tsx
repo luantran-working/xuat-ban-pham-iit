@@ -37,12 +37,10 @@ export function PublicationsListPage() {
           <div className="eyebrow">Dữ liệu số</div>
           <div className="mt-3 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <h1 className="section-title">
-                Danh mục xuất bản phẩm điện tử phát hành công bố
-              </h1>
+              <h1 className="section-title">Tìm kiếm xuất bản phẩm điện tử</h1>
               <p className="body-text mt-2 max-w-xl">
-                Tìm kiếm và tra cứu các phát hành phẩm điện tử đã được đặc duyệt
-                và phát hành trên hệ thống.
+                Tìm kiếm và tra cứu các phát hành xuất bản phẩm điện tử đã được
+                đặc duyệt và phát hành trên hệ thống.
               </p>
             </div>
             <Button asChild variant="outline">

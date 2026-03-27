@@ -111,9 +111,9 @@ export function ContactPage() {
                 </span>
               </h1>
               <p className="body-text max-w-xl">
-                Nếu bạn cần trao đổi về phát hành phẩm điện tử, quy trình công
-                bố nội dung hoặc thông tin của đơn vị vận hành, các kênh dưới
-                đây là đầu mối liên hệ chính thức.
+                Nếu bạn cần trao đổi về phát hành xuất bản phẩm điện tử, quy
+                trình công bố nội dung hoặc thông tin của đơn vị vận hành, các
+                kênh dưới đây là đầu mối liên hệ chính thức.
               </p>
               <Button asChild size="lg">
                 <a href="mailto:info@iit.vn">
@@ -298,7 +298,7 @@ export function ContactPage() {
             <div className="mt-4 flex justify-center">
               <p className="max-w-lg text-center text-sm leading-relaxed text-white/80">
                 Đội ngũ IIT luôn sẵn sàng hỗ trợ bạn trong quá trình sử dụng hệ
-                thống phát hành phẩm điện tử.
+                thống phát hành xuất bản phẩm điện tử.
               </p>
             </div>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

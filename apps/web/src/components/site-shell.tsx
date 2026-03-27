@@ -132,7 +132,7 @@ export function SiteShell() {
                 IIT
               </div>
               <div className="text-[11px] text-[var(--muted-foreground)] leading-tight">
-                Phát hành phẩm điện tử
+                Nền tảng Phát hành xuất bản phẩm điện tử
               </div>
             </div>
           </Link>
@@ -239,14 +239,14 @@ export function SiteShell() {
                 <div>
                   <div className="font-heading text-lg font-bold">IIT</div>
                   <div className="text-xs text-white/60">
-                    Phát hành phẩm điện tử
+                    Nền tảng phát hành xuất bản phẩm điện tử
                   </div>
                 </div>
               </div>
               <p className="max-w-md text-sm leading-relaxed text-white/70">
                 Hệ thống phát hành xuất bản phẩm điện tử được xây dựng nhằm hỗ
-                trợ tiếp nhận, đặc duyệt, phát hành và công bố nội dung số theo
-                quy trình quản trị thống nhất, rõ trạng thái và lưu vết đầy đủ.
+                trợ tiếp nhận, phát hành và công bố nội dung số theo quy trình
+                quản trị thống nhất, rõ trạng thái và lưu vết đầy đủ.
               </p>
               <div className="flex items-center gap-4">
                 <a
@@ -283,7 +283,7 @@ export function SiteShell() {
                   { to: "/", label: "Trang chủ" },
                   {
                     to: "/danh-sach-xuat-ban",
-                    label: "Danh mục phát hành xuất bản phẩm điện tử",
+                    label: "Danh mục xuất bản phẩm điện tử",
                   },
                   { to: "/gioi-thieu", label: "Giới thiệu" },
                   { to: "/upload", label: "Tải lên tài liệu" },

@@ -33,13 +33,13 @@ const features = [
     icon: FileCheck2,
     title: "Đặc duyệt chặt chẽ",
     description:
-      "Mọi phát hành phẩm đều trải qua quy trình rà soát, xác nhận bản quyền trước khi được công bố.",
+      "Mọi xuất bản phẩm điện tử đều trải qua quy trình rà soát, xác nhận bản quyền trước khi được công bố.",
   },
   {
     icon: Globe,
     title: "Công bố công khai",
     description:
-      "Nội dung phát hành được hiển thị trên dữ liệu số, phục vụ tra cứu và khai thác thuận tiện.",
+      "Nội dung phát hành xuất bản phẩm điện tử được hiển thị trên dữ liệu số, phục vụ tra cứu và khai thác thuận tiện.",
   },
   {
     icon: Shield,
@@ -90,7 +90,7 @@ const processSteps = [
     number: "04",
     title: "Phát hành công khai",
     description:
-      "Phát hành phẩm được công bố trên dữ liệu số, sẵn sàng để tra cứu.",
+      "Phát hành xuất bản phẩm điện tử được công bố trên dữ liệu số, sẵn sàng để tra cứu.",
   },
 ];
 
@@ -126,10 +126,13 @@ export function HomePage() {
         <div className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">
           <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
             <div className="reveal space-y-6">
-              <div className="eyebrow">Phát hành phẩm điện tử</div>
+              <div className="eyebrow">Phát hành xuất bản phẩm điện tử</div>
               <h1 className="display-title text-[var(--foreground)]">
                 Nền tảng công bố và quản trị
-                <span className="text-[var(--accent)]"> phát hành phẩm </span>
+                <span className="text-[var(--accent)]">
+                  {" "}
+                  phát hành xuất bản phẩm điện tử
+                </span>
               </h1>
               <p className="body-text max-w-xl">
                 Tra cứu nhanh theo tiêu đề hoặc tác giả, xem trực tiếp các định
@@ -140,7 +143,9 @@ export function HomePage() {
                 <Button asChild size="lg">
                   <Link to="/upload">
                     <Upload className="h-4 w-4" />
-                    <span className="text-white">Gửi phát hành phẩm</span>
+                    <span className="text-white">
+                      Gửi phát hành xuất bản phẩm điện tử
+                    </span>
                   </Link>
                 </Button>
                 <Button asChild variant="outline" size="lg">
@@ -183,7 +188,7 @@ export function HomePage() {
           <div className="reveal text-center">
             <div className="eyebrow">Tính năng nổi bật</div>
             <h2 className="section-title mt-3">
-              Giải pháp toàn diện cho phát hành số
+              Giải pháp toàn diện cho hệ thống phát hành xuất bản phẩm điện tử
             </h2>
             <div className="mt-4 flex justify-center">
               <p className="body-text max-w-2xl text-center">
@@ -220,7 +225,7 @@ export function HomePage() {
           <div className="reveal text-center">
             <div className="eyebrow">Quy trình xử lý</div>
             <h2 className="section-title mt-3">
-              Bốn bước từ tải lên đến phát hành
+              Bốn bước từ tải lên đến hệ thống phát hành xuất bản phẩm điện tử
             </h2>
             <div className="mt-4 flex justify-center">
               <p className="body-text max-w-2xl text-center">
@@ -266,17 +271,17 @@ export function HomePage() {
             <div className="mt-3 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
               <div>
                 <h2 className="section-title">
-                  Danh mục xuất bản phẩm điện tử phát hành công bố
+                  Tìm kiếm xuất bản phẩm điện tử
                 </h2>
                 <p className="body-text mt-2 max-w-xl">
-                  Tìm kiếm và tra cứu các phát hành phẩm điện tử đã được đặc
-                  duyệt và phát hành trên hệ thống.
+                  Tìm kiếm và tra cứu các xuất bản phẩm điện tử đã được đọc
+                  duyệt trên hệ thống.
                 </p>
               </div>
               <Button asChild variant="outline">
                 <Link to="/upload">
                   <Upload className="h-4 w-4" />
-                  Gửi phát hành phẩm mới
+                  Gửi phát hành xuất bản phẩm điện tử mới
                 </Link>
               </Button>
             </div>
@@ -349,9 +354,11 @@ export function HomePage() {
           <div className="reveal grid gap-12 lg:grid-cols-2 lg:items-center">
             <div className="space-y-6">
               <div className="eyebrow">Tại sao chọn IIT</div>
-              <h2 className="section-title">Nền tảng xuất bản phẩm điện tử</h2>
+              <h2 className="section-title">
+                Nền tảng phát hành xuất bản phẩm điện tử
+              </h2>
               <p className="body-text">
-                Được thiết kế cho các tổ chức cần một quy trình tiếp nhận, đặc
+                Được thiết kế cho các tổ chức cần một quy trình tiếp nhận, đọc
                 duyệt và phát hành nội dung số rõ ràng, minh bạch và có kiểm
                 soát.
               </p>
@@ -441,11 +448,11 @@ export function HomePage() {
         <div className="mx-auto max-w-7xl px-4 md:px-8">
           <div className="reveal gradient-cta overflow-hidden rounded-[var(--radius-xl)] p-10 text-center text-white shadow-xl md:p-16">
             <h2 className="font-heading text-2xl font-bold md:text-3xl">
-              Sẵn sàng gửi phát hành phẩm?
+              Sẵn sàng phát hành xuất bản phẩm điện tử?
             </h2>
             <div className="mt-4 flex justify-center">
               <p className="max-w-lg text-center text-sm leading-relaxed text-white/80">
-                Bắt đầu quy trình tiếp nhận và đặc duyệt ngay hôm nay. Hệ thống
+                Bắt đầu quy trình tiếp nhận và đọc duyệt ngay hôm nay. Hệ thống
                 hỗ trợ nhiều định dạng tệp và xử lý nhanh chóng.
               </p>
             </div>

@@ -220,9 +220,7 @@ export function UploadPage() {
                             {...form.register("publishYear")}
                           />
                           <FieldError
-                            message={
-                              form.formState.errors.publishYear?.message
-                            }
+                            message={form.formState.errors.publishYear?.message}
                           />
                         </div>
                       </div>
@@ -316,7 +314,7 @@ export function UploadPage() {
                         <span className="text-white">
                           {mutation.isPending
                             ? "Đang tải lên..."
-                            : "Gửi phát hành phẩm"}
+                            : "Gửi phát hành xuất bản phẩm điện tử"}
                         </span>
                       </Button>
                     </form>
