@@ -22,7 +22,10 @@ import {
   PublicationStatus,
   transitionPublicationStatus,
 } from './publication-status';
-import { getUploadDirectory } from './upload-storage';
+import {
+  getUploadDirectory,
+  normalizeUploadedOriginalName,
+} from './upload-storage';
 
 const PUBLIC_ACTOR = 'Người dùng công khai';
 const ADMIN_ACTOR = 'admin';
@@ -53,16 +56,22 @@ export class PublicationsService {
         copyrightExpiryDate: new Date(dto.copyrightExpiryDate),
         status: PrismaPublicationStatus.PENDING,
         files: {
-          create: files.map((file) => ({
-            originalName: file.originalname,
-            storedName: file.filename,
-            mimeType: file.mimetype || 'application/octet-stream',
-            extension: extname(file.originalname)
-              .replace('.', '')
-              .toLowerCase(),
-            size: file.size,
-            relativePath: this.normalizeRelativePath(file.path),
-          })),
+          create: files.map((file) => {
+            const normalizedOriginalName = normalizeUploadedOriginalName(
+              file.originalname,
+            );
+
+            return {
+              originalName: normalizedOriginalName,
+              storedName: file.filename,
+              mimeType: file.mimetype || 'application/octet-stream',
+              extension: extname(normalizedOriginalName)
+                .replace('.', '')
+                .toLowerCase(),
+              size: file.size,
+              relativePath: this.normalizeRelativePath(file.path),
+            };
+          }),
         },
         histories: {
           create: [

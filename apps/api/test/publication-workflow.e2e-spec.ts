@@ -27,10 +27,13 @@ describe('Publication workflow (e2e)', () => {
 
     mkdirSync(uploadDir, { recursive: true });
 
-    execSync('npx prisma db push --skip-generate --schema ./prisma/schema.prisma', {
-      cwd: apiRoot,
-      stdio: 'ignore',
-    });
+    execSync(
+      'npx prisma db push --skip-generate --schema ./prisma/schema.prisma',
+      {
+        cwd: apiRoot,
+        stdio: 'ignore',
+      },
+    );
 
     prisma = new PrismaClient();
     await prisma.publicationHistory.deleteMany();
@@ -132,7 +135,11 @@ describe('Publication workflow (e2e)', () => {
       .set('Authorization', `Bearer ${accessToken}`)
       .expect(200);
 
-    expect(historyResponse.body.items.some((item: { action: string }) => item.action === 'PUBLISH')).toBe(true);
+    expect(
+      historyResponse.body.items.some(
+        (item: { action: string }) => item.action === 'PUBLISH',
+      ),
+    ).toBe(true);
 
     await request(app.getHttpServer())
       .patch(`/admin/publications/${publicationId}/suspend`)
@@ -159,5 +166,46 @@ describe('Publication workflow (e2e)', () => {
         expect(body.isLocked).toBe(true);
         expect(body.message).toBe('Nội dung không còn khả dụng');
       });
+  });
+
+  it('chuẩn hóa tên tệp Unicode bị lỗi và vẫn lưu file vật lý bằng tên ngẫu nhiên', async () => {
+    const uniqueSuffix = Date.now();
+    const title = `Kiểm thử Unicode ${uniqueSuffix}`;
+    const expectedFilename =
+      '2.9 Kết nối cuộc sống - Khám phá nghề nghiệp.docx';
+    const mojibakeFilename = Buffer.from(expectedFilename, 'utf8').toString(
+      'latin1',
+    );
+
+    const uploadResponse = await request(app.getHttpServer())
+      .post('/publications/upload')
+      .field('title', title)
+      .field('description', 'Kiểm thử chuẩn hóa tên tệp Unicode khi upload')
+      .field('author', 'Phòng Kiểm thử IIT')
+      .field('publishYear', '2026')
+      .field('copyrightExpiryDate', '2030-12-31')
+      .attach('files', Buffer.from('demo file content', 'utf8'), {
+        filename: mojibakeFilename,
+        contentType:
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      })
+      .expect(201);
+
+    expect(uploadResponse.body.files).toHaveLength(1);
+    expect(uploadResponse.body.files[0].originalName).toBe(expectedFilename);
+    expect(uploadResponse.body.files[0].extension).toBe('docx');
+
+    const persistedPublication = await prisma.publication.findUniqueOrThrow({
+      where: { id: uploadResponse.body.id },
+      include: {
+        files: true,
+      },
+    });
+
+    expect(persistedPublication.files).toHaveLength(1);
+    expect(persistedPublication.files[0].storedName).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.docx$/,
+    );
+    expect(persistedPublication.files[0].originalName).toBe(expectedFilename);
   });
 });

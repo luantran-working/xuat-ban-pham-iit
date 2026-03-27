@@ -18,7 +18,11 @@ import type { Response } from 'express';
 import { ListPublicationsDto } from './dto/list-publications.dto';
 import { UploadPublicationDto } from './dto/upload-publication.dto';
 import { PublicationsService } from './publications.service';
-import { createStoredFilename, getUploadDirectory } from './upload-storage';
+import {
+  createStoredFilename,
+  getUploadDirectory,
+  normalizeUploadedOriginalName,
+} from './upload-storage';
 
 type UploadedFile = {
   originalname: string;
@@ -40,7 +44,11 @@ export class PublicationsController {
           callback(null, getUploadDirectory());
         },
         filename: (_req, file, callback) => {
-          callback(null, createStoredFilename(file.originalname));
+          const normalizedOriginalName = normalizeUploadedOriginalName(
+            file.originalname,
+          );
+          file.originalname = normalizedOriginalName;
+          callback(null, createStoredFilename(normalizedOriginalName));
         },
       }),
     }),
@@ -74,10 +82,8 @@ export class PublicationsController {
     @Query('download') download: string | undefined,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const { file, absolutePath } = await this.publicationsService.getFileContent(
-      id,
-      fileId,
-    );
+    const { file, absolutePath } =
+      await this.publicationsService.getFileContent(id, fileId);
 
     response.setHeader('Content-Type', file.mimeType);
     response.setHeader(
