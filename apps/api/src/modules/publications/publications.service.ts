@@ -419,11 +419,7 @@ export class PublicationsService {
       createdAt: publication.createdAt,
       updatedAt: publication.updatedAt,
       files: publication.files.map((file) => ({
-        ...this.buildPublicFileLinks(
-          publication.id,
-          file.id,
-          file.originalName,
-        ),
+        ...this.buildPublicFileLinks(publication.id, file.id, file.extension),
         id: file.id,
         originalName: file.originalName,
         mimeType: file.mimeType,
@@ -487,10 +483,13 @@ export class PublicationsService {
   private buildPublicFileLinks(
     publicationId: string,
     fileId: string,
-    originalName: string,
+    extension: string,
   ) {
-    const encodedName = encodeURIComponent(originalName);
-    const basePath = `/publications/${publicationId}/files/${fileId}/content/${encodedName}`;
+    const safeExtension = (extension || '')
+      .replace(/[^a-zA-Z0-9]/g, '')
+      .toLowerCase();
+    const filename = safeExtension ? `preview.${safeExtension}` : 'preview.bin';
+    const basePath = `/publications/${publicationId}/files/${fileId}/content/${filename}`;
 
     return {
       previewUrl: basePath,

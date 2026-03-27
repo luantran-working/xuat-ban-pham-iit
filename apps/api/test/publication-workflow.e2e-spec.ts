@@ -88,6 +88,9 @@ describe('Publication workflow (e2e)', () => {
 
     expect(uploadResponse.body.status).toBe('PENDING');
     expect(uploadResponse.body.history.at(-1)?.action).toBe('UPLOAD');
+    expect(uploadResponse.body.files[0].previewUrl).toMatch(
+      /\/content\/preview\.pdf$/,
+    );
 
     await request(app.getHttpServer())
       .get('/publications')
@@ -194,6 +197,9 @@ describe('Publication workflow (e2e)', () => {
     expect(uploadResponse.body.files).toHaveLength(1);
     expect(uploadResponse.body.files[0].originalName).toBe(expectedFilename);
     expect(uploadResponse.body.files[0].extension).toBe('docx');
+    expect(uploadResponse.body.files[0].previewUrl).toMatch(
+      /\/content\/preview\.docx$/,
+    );
 
     const persistedPublication = await prisma.publication.findUniqueOrThrow({
       where: { id: uploadResponse.body.id },
