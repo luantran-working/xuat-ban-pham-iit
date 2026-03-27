@@ -33,7 +33,21 @@ export function resolveApiUrl(path: string) {
     return path;
   }
 
-  return `${API_BASE_URL}${path}`;
+  const normalizedBase = API_BASE_URL.replace(/\/+$/, "");
+
+  if (normalizedBase.startsWith("http")) {
+    return `${normalizedBase}${path}`;
+  }
+
+  if (normalizedBase.startsWith("/")) {
+    if (typeof window !== "undefined" && window.location?.origin) {
+      return `${window.location.origin}${normalizedBase}${path}`;
+    }
+
+    return `${normalizedBase}${path}`;
+  }
+
+  return `${normalizedBase}${path}`;
 }
 
 export async function fetchPublications(search = "") {

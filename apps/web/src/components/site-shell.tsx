@@ -29,6 +29,7 @@ type LoginState = {
 
 const navLinks = [
   { to: "/", label: "Trang chủ", end: true },
+  { to: "/danh-sach-xuat-ban", label: "Danh sách xuất bản" },
   { to: "/gioi-thieu", label: "Giới thiệu" },
   { to: "/lien-he", label: "Liên hệ" },
   { to: "/upload", label: "Tải lên" },
@@ -279,6 +280,7 @@ export function SiteShell() {
               <div className="space-y-3">
                 {[
                   { to: "/", label: "Trang chủ" },
+                  { to: "/danh-sach-xuat-ban", label: "Danh sách xuất bản" },
                   { to: "/gioi-thieu", label: "Giới thiệu" },
                   { to: "/upload", label: "Tải lên tài liệu" },
                   { to: "/lien-he", label: "Liên hệ" },
@@ -304,8 +306,8 @@ export function SiteShell() {
                 <div className="flex items-start gap-3">
                   <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--primary-400)]" />
                   <span className="text-sm text-white/70">
-                    Số 38/2D Đường Mậu Thân, Phường An Hòa, Quận Ninh Kiều,
-                    TP. Cần Thơ
+                    Số 38/2D Đường Mậu Thân, Phường An Hòa, Quận Ninh Kiều, TP.
+                    Cần Thơ
                   </span>
                 </div>
                 <div className="flex items-center gap-3">

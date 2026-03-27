@@ -419,7 +419,12 @@ export class PublicationsService {
       createdAt: publication.createdAt,
       updatedAt: publication.updatedAt,
       files: publication.files.map((file) => ({
-        ...this.buildPublicFileLinks(publication.id, file.id, file.extension),
+        ...this.buildPublicFileLinks(
+          publication.id,
+          file.id,
+          file.originalName,
+          file.extension,
+        ),
         id: file.id,
         originalName: file.originalName,
         mimeType: file.mimeType,
@@ -483,17 +488,31 @@ export class PublicationsService {
   private buildPublicFileLinks(
     publicationId: string,
     fileId: string,
+    originalName: string,
     extension: string,
   ) {
     const safeExtension = (extension || '')
       .replace(/[^a-zA-Z0-9]/g, '')
       .toLowerCase();
-    const filename = safeExtension ? `preview.${safeExtension}` : 'preview.bin';
-    const basePath = `/publications/${publicationId}/files/${fileId}/content/${filename}`;
+    const filename = this.buildViewerFilename(originalName, safeExtension);
+    const basePath = `/publications/${publicationId}/files/${fileId}/content/${encodeURIComponent(filename)}`;
 
     return {
       previewUrl: basePath,
       downloadUrl: `${basePath}?download=1`,
     };
+  }
+
+  private buildViewerFilename(originalName: string, safeExtension: string) {
+    const nameWithoutExt = originalName.replace(/\.[^/.]+$/, '');
+    const asciiBase = nameWithoutExt
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-zA-Z0-9._-]+/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_+|_+$/g, '');
+
+    const base = asciiBase || 'preview';
+    return safeExtension ? `${base}.${safeExtension}` : `${base}.bin`;
   }
 }
