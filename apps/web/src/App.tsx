@@ -13,6 +13,7 @@ import { AdminPublicationsPage } from "@/pages/admin-publications-page";
 import { AboutPage } from "@/pages/about-page";
 import { ContactPage } from "@/pages/contact-page";
 import { PublicationsListPage } from "@/pages/publications-list-page";
+import { GuestProtected } from "@/components/guest-protected";
 
 const queryClient = new QueryClient();
 
@@ -32,7 +33,11 @@ export default function App() {
             <Route path="upload" element={<UploadPage />} />
             <Route
               path="publications/:id"
-              element={<PublicationDetailPage />}
+              element={
+                <GuestProtected>
+                  <PublicationDetailPage />
+                </GuestProtected>
+              }
             />
             <Route path="admin/login" element={<AdminLoginPage />} />
             <Route element={<AdminProtected />}>

@@ -40,8 +40,8 @@ export function AdminLoginDialog({
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: "admin",
-      password: "iit@123",
+      username: "",
+      password: "",
     },
   });
 

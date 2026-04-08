@@ -32,6 +32,8 @@ type UploadedFile = {
   path: string;
 };
 
+const MAX_UPLOAD_FILE_SIZE_BYTES = 2 * 1024 * 1024 * 1024;
+
 @Controller('publications')
 export class PublicationsController {
   constructor(private readonly publicationsService: PublicationsService) {}
@@ -39,6 +41,9 @@ export class PublicationsController {
   @Post('upload')
   @UseInterceptors(
     FilesInterceptor('files', 20, {
+      limits: {
+        fileSize: MAX_UPLOAD_FILE_SIZE_BYTES,
+      },
       storage: diskStorage({
         destination: (_req, _file, callback) => {
           callback(null, getUploadDirectory());
