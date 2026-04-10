@@ -32,7 +32,7 @@ type UploadedFile = {
   path: string;
 };
 
-const MAX_UPLOAD_FILE_SIZE_BYTES = 2 * 1024 * 1024 * 1024;
+const MAX_UPLOAD_FILE_SIZE_BYTES = 10 * 1024 * 1024 * 1024; // 10GB
 
 @Controller('publications')
 export class PublicationsController {
@@ -40,9 +40,12 @@ export class PublicationsController {
 
   @Post('upload')
   @UseInterceptors(
-    FilesInterceptor('files', 20, {
+    FilesInterceptor('files', 100, {
       limits: {
         fileSize: MAX_UPLOAD_FILE_SIZE_BYTES,
+        fieldSize: 100 * 1024 * 1024, // 100MB for metadata fields
+        fields: 100, // up to 100 metadata fields
+        parts: 200, // up to 200 total parts (fields + files)
       },
       storage: diskStorage({
         destination: (_req, _file, callback) => {
