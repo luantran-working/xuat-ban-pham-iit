@@ -44,9 +44,9 @@ export function PublicationCard({
           </div>
 
           <div className="flex items-center justify-between rounded-[var(--radius-sm)] border border-[var(--border)] px-4 py-3 text-sm">
-            <span className="text-[var(--muted-foreground)]">
+            {/* <span className="text-[var(--muted-foreground)]">
               Năm {publication.publishYear}
-            </span>
+            </span> */}
             {publication.isLocked ? (
               <span className="flex items-center gap-1.5 font-medium text-rose-600">
                 <LockKeyhole className="h-3.5 w-3.5" />
