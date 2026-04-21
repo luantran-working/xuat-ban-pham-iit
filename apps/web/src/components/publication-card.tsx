@@ -1,9 +1,8 @@
-import { Link } from "react-router-dom";
-import { ArrowUpRight, FileText, LockKeyhole, UserRound } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatusBadge } from "@/components/status-badge";
-import { formatDate } from "@/lib/utils";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { PublicationListItem } from "@/types/publication";
+import { ArrowUpRight, FileText, LockKeyhole, UserRound } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function PublicationCard({
   publication,
