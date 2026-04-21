@@ -340,10 +340,10 @@ export function SiteShell() {
         {/* Bottom Bar */}
         <div className="border-t border-white/10">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-5 md:px-8">
-            <p className="text-xs text-white/50">
+            {/* <p className="text-xs text-white/50">
               © {new Date().getFullYear()} Công ty Cổ phần IIT. Bảo lưu mọi
               quyền.
-            </p>
+            </p> */}
             <div className="flex items-center gap-4 text-xs text-white/50">
               <span>Điều khoản sử dụng</span>
               <span>Chính sách bảo mật</span>

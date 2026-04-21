@@ -19,9 +19,9 @@ export function PublicationCard({
         <CardHeader className="space-y-4 pb-3">
           <div className="flex items-start justify-between gap-3">
             <StatusBadge status={publication.status} />
-            <div className="text-xs text-[var(--muted-foreground)]">
+            {/* <div className="text-xs text-[var(--muted-foreground)]">
               {formatDate(publication.createdAt)}
-            </div>
+            </div> */}
           </div>
           <CardTitle className="text-xl leading-tight line-clamp-2 group-hover:text-[var(--accent)] transition-colors">
             {publication.title}
