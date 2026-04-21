@@ -6,9 +6,9 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
-  // Increase body-parser limits
-  app.use(json({ limit: '50mb' }));
-  app.use(urlencoded({ extended: true, limit: '50mb' }));
+  // Increase body-parser limits to match Multer fileSize limit
+  app.use(json({ limit: '10gb' }));
+  app.use(urlencoded({ extended: true, limit: '10gb' }));
 
   app.enableCors({
     origin: true,
