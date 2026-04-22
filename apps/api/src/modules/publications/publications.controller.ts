@@ -1,11 +1,14 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
   Param,
   ParseFilePipeBuilder,
+  ParseIntPipe,
   Post,
   Query,
+  Req,
   Res,
   StreamableFile,
   UploadedFiles,
@@ -13,8 +16,11 @@ import {
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { createReadStream } from 'node:fs';
-import type { Response } from 'express';
+import { createReadStream, createWriteStream } from 'node:fs';
+import { pipeline } from 'node:stream/promises';
+import type { Request, Response } from 'express';
+import { CompleteChunkUploadDto } from './dto/complete-chunk-upload.dto';
+import { InitChunkUploadDto } from './dto/init-chunk-upload.dto';
 import { ListPublicationsDto } from './dto/list-publications.dto';
 import { UploadPublicationDto } from './dto/upload-publication.dto';
 import { PublicationsService } from './publications.service';
@@ -37,6 +43,39 @@ const MAX_UPLOAD_FILE_SIZE_BYTES = 10 * 1024 * 1024 * 1024; // 10GB
 @Controller('publications')
 export class PublicationsController {
   constructor(private readonly publicationsService: PublicationsService) {}
+
+  @Post('upload/init')
+  initChunkUpload(@Body() dto: InitChunkUploadDto) {
+    return this.publicationsService.initChunkUpload(dto);
+  }
+
+  @Post('upload/:uploadId/files/:fileId/chunks/:chunkIndex')
+  async uploadChunk(
+    @Param('uploadId') uploadId: string,
+    @Param('fileId') fileId: string,
+    @Param('chunkIndex', ParseIntPipe) chunkIndex: number,
+    @Req() request: Request,
+  ) {
+    const target = this.publicationsService.prepareChunkUpload(
+      uploadId,
+      fileId,
+      chunkIndex,
+    );
+    const contentLength = Number(request.headers['content-length'] ?? 0);
+
+    if (!Number.isFinite(contentLength) || contentLength <= 0) {
+      throw new BadRequestException('Chunk tải lên không hợp lệ.');
+    }
+
+    await pipeline(request, createWriteStream(target.path));
+
+    return this.publicationsService.confirmChunkUpload(
+      uploadId,
+      fileId,
+      chunkIndex,
+      contentLength,
+    );
+  }
 
   @Post('upload')
   @UseInterceptors(
@@ -71,6 +110,14 @@ export class PublicationsController {
     files: UploadedFile[],
   ) {
     return this.publicationsService.uploadPublication(dto, files ?? []);
+  }
+
+  @Post('upload/:uploadId/complete')
+  completeChunkUpload(
+    @Param('uploadId') uploadId: string,
+    @Body() _dto: CompleteChunkUploadDto,
+  ) {
+    return this.publicationsService.completeChunkUpload(uploadId);
   }
 
   @Get()

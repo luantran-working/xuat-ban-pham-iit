@@ -261,4 +261,81 @@ describe('Publication workflow (e2e)', () => {
         expect(response.headers['content-type']).toContain('application/pdf');
       });
   });
+
+  it('upload theo chunk rồi hoàn tất phát hành phẩm thành công', async () => {
+    const uniqueSuffix = Date.now();
+    const title = `Kiểm thử chunk upload ${uniqueSuffix}`;
+    const fileContent = Buffer.from(
+      'Noi dung tep lon mo phong duoc chia nho theo chunk de upload.',
+      'utf8',
+    );
+    const chunkSize = 12;
+
+    const initResponse = await request(app.getHttpServer())
+      .post('/publications/upload/init')
+      .send({
+        title,
+        description: 'Kiểm thử upload theo chunk',
+        author: 'Phòng Kiểm thử IIT',
+        publishYear: 2026,
+        copyrightExpiryDate: '2030-12-31',
+        files: [
+          {
+            originalName: 'chunk-upload-demo.pdf',
+            mimeType: 'application/pdf',
+            size: fileContent.length,
+            chunkSize,
+            chunkCount: Math.ceil(fileContent.length / chunkSize),
+          },
+        ],
+      })
+      .expect(201);
+
+    expect(initResponse.body.uploadId).toEqual(expect.any(String));
+    expect(initResponse.body.files).toHaveLength(1);
+
+    const uploadId = initResponse.body.uploadId as string;
+    const uploadFileId = initResponse.body.files[0].id as string;
+    const chunkCount = initResponse.body.files[0].chunkCount as number;
+
+    for (let index = 0; index < chunkCount; index += 1) {
+      const start = index * chunkSize;
+      const end = Math.min(start + chunkSize, fileContent.length);
+
+      await request(app.getHttpServer())
+        .post(`/publications/upload/${uploadId}/files/${uploadFileId}/chunks/${index}`)
+        .set('Content-Type', 'application/octet-stream')
+        .send(fileContent.subarray(start, end))
+        .expect(201);
+    }
+
+    const completeResponse = await request(app.getHttpServer())
+      .post(`/publications/upload/${uploadId}/complete`)
+      .send({})
+      .expect(201);
+
+    expect(completeResponse.body.status).toBe('PENDING');
+    expect(completeResponse.body.files).toHaveLength(1);
+    expect(completeResponse.body.files[0].originalName).toBe(
+      'chunk-upload-demo.pdf',
+    );
+
+    const persistedPublication = await prisma.publication.findUniqueOrThrow({
+      where: { id: completeResponse.body.id },
+      include: {
+        files: true,
+      },
+    });
+
+    expect(persistedPublication.files).toHaveLength(1);
+
+    const storedFilePath = path.resolve(
+      apiRoot,
+      '..',
+      '..',
+      persistedPublication.files[0].relativePath,
+    );
+
+    expect(existsSync(storedFilePath)).toBe(true);
+  });
 });

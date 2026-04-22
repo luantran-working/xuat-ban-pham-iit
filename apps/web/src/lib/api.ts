@@ -4,6 +4,7 @@ import type {
   PublicationListItem,
   PublicationStatus,
 } from "@/types/publication";
+import { uploadPublicationInChunks } from "@/lib/chunk-upload";
 
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL ?? "https://xuatbanpham-api.test.iit.vn";
@@ -65,13 +66,24 @@ export async function fetchPublicationDetail(id: string) {
   return parseJson<PublicationDetail>(response);
 }
 
-export async function uploadPublication(formData: FormData) {
-  const response = await fetch(`${API_BASE_URL}/publications/upload`, {
-    method: "POST",
-    body: formData,
-  });
+export async function uploadPublication(
+  formData: FormData,
+  onProgress?: (progress: { uploadedBytes: number; totalBytes: number }) => void,
+) {
+  const files = formData.getAll("files").filter((item): item is File => item instanceof File);
 
-  return parseJson<PublicationDetail>(response);
+  return uploadPublicationInChunks({
+    apiBaseUrl: API_BASE_URL,
+    files,
+    metadata: {
+      title: String(formData.get("title") ?? ""),
+      description: String(formData.get("description") ?? ""),
+      author: String(formData.get("author") ?? ""),
+      publishYear: String(formData.get("publishYear") ?? ""),
+      copyrightExpiryDate: String(formData.get("copyrightExpiryDate") ?? ""),
+    },
+    onProgress,
+  });
 }
 
 export async function adminLogin(username: string, password: string) {

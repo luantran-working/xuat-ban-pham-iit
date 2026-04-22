@@ -67,6 +67,7 @@ export function UploadPage() {
     () => !getUploadUserAuthenticated(),
   );
   const [isDragOver, setIsDragOver] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   useEffect(() => {
     if (!isUploadAuthenticated) {
@@ -99,12 +100,21 @@ export function UploadPage() {
       formData.append("copyrightExpiryDate", values.copyrightExpiryDate);
       files.forEach((file) => formData.append("files", file));
 
-      return uploadPublication(formData);
+      return uploadPublication(formData, (progress) => {
+        const percent = progress.totalBytes
+          ? Math.round((progress.uploadedBytes / progress.totalBytes) * 100)
+          : 0;
+        setUploadProgress(percent);
+      });
     },
     onSuccess: (result) => {
       setUploadedStatus(result.status);
       form.reset();
       setFiles([]);
+      setUploadProgress(100);
+    },
+    onError: () => {
+      setUploadProgress(0);
     },
   });
 
@@ -301,6 +311,21 @@ export function UploadPage() {
                         <div className="flex items-start gap-3 rounded-[var(--radius-sm)] border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
                           <Info className="mt-0.5 h-4 w-4 shrink-0" />
                           {(mutation.error as Error).message}
+                        </div>
+                      ) : null}
+
+                      {mutation.isPending ? (
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between text-sm text-[var(--muted-foreground)]">
+                            <span>Tiến độ tải lên</span>
+                            <span>{uploadProgress}%</span>
+                          </div>
+                          <div className="h-2 overflow-hidden rounded-full bg-[var(--primary-100)]">
+                            <div
+                              className="h-full bg-[var(--accent)] transition-all"
+                              style={{ width: `${uploadProgress}%` }}
+                            />
+                          </div>
                         </div>
                       ) : null}
 

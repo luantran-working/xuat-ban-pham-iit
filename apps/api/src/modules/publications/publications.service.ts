@@ -16,6 +16,10 @@ import {
   ListAdminPublicationsDto,
   ListPublicationsDto,
 } from './dto/list-publications.dto';
+import {
+  InitChunkUploadDto,
+  type InitChunkUploadFileInput,
+} from './dto/init-chunk-upload.dto';
 import { ReviewPublicationDto } from './dto/review-publication.dto';
 import { UploadPublicationDto } from './dto/upload-publication.dto';
 import {
@@ -23,6 +27,16 @@ import {
   transitionPublicationStatus,
 } from './publication-status';
 import {
+  assembleChunkedFile,
+  createChunkUploadManifest,
+  getChunkFilePath,
+  getChunkFileSize,
+  readChunkUploadManifest,
+  removeChunkUploadSession,
+  type ChunkUploadManifest,
+} from './chunk-upload-storage';
+import {
+  createStoredFilename,
   getUploadDirectory,
   normalizeUploadedOriginalName,
 } from './upload-storage';
@@ -93,6 +107,114 @@ export class PublicationsService {
     });
 
     return this.mapPublicationDetail(publication, false);
+  }
+
+  initChunkUpload(dto: InitChunkUploadDto) {
+    dto.files.forEach((file) => this.validateChunkedFileDescriptor(file));
+
+    const manifest = createChunkUploadManifest({
+      metadata: {
+        title: dto.title,
+        description: dto.description,
+        author: dto.author,
+        publishYear: dto.publishYear,
+        copyrightExpiryDate: dto.copyrightExpiryDate,
+      },
+      files: dto.files,
+    });
+
+    return {
+      uploadId: manifest.uploadId,
+      files: manifest.files.map((file) => ({
+        id: file.id,
+        originalName: file.originalName,
+        chunkCount: file.chunkCount,
+        chunkSize: file.chunkSize,
+        size: file.size,
+      })),
+    };
+  }
+
+  prepareChunkUpload(uploadId: string, fileId: string, chunkIndex: number) {
+    const { file } = this.getChunkManifestFile(uploadId, fileId);
+
+    if (chunkIndex < 0 || chunkIndex >= file.chunkCount) {
+      throw new BadRequestException('Chunk index không hợp lệ.');
+    }
+
+    return {
+      path: getChunkFilePath(uploadId, fileId, chunkIndex),
+    };
+  }
+
+  confirmChunkUpload(
+    uploadId: string,
+    fileId: string,
+    chunkIndex: number,
+    contentLength: number,
+  ) {
+    const { file } = this.getChunkManifestFile(uploadId, fileId);
+    const storedChunkSize = getChunkFileSize(uploadId, fileId, chunkIndex);
+    const expectedSize = this.getExpectedChunkSize(file, chunkIndex);
+
+    if (storedChunkSize !== contentLength || storedChunkSize !== expectedSize) {
+      throw new BadRequestException('Kích thước chunk không hợp lệ.');
+    }
+
+    return {
+      uploaded: true,
+      chunkIndex,
+      size: storedChunkSize,
+    };
+  }
+
+  async completeChunkUpload(uploadId: string) {
+    const manifest = readChunkUploadManifest(uploadId);
+
+    if (!manifest) {
+      throw new NotFoundException('Không tìm thấy phiên tải lên.');
+    }
+
+    const assembledFiles: UploadedFile[] = [];
+
+    try {
+      for (const file of manifest.files) {
+        this.ensureAllChunksUploaded(uploadId, file);
+
+        const normalizedOriginalName = normalizeUploadedOriginalName(
+          file.originalName,
+        );
+        const storedName = createStoredFilename(normalizedOriginalName);
+        const finalPath = resolve(getUploadDirectory(), storedName);
+
+        assembleChunkedFile({
+          uploadId,
+          fileId: file.id,
+          chunkCount: file.chunkCount,
+          destinationPath: finalPath,
+        });
+
+        assembledFiles.push({
+          originalname: normalizedOriginalName,
+          filename: storedName,
+          mimetype: file.mimeType,
+          size: file.size,
+          path: finalPath,
+        });
+      }
+
+      const result = await this.uploadPublication(manifest.metadata, assembledFiles);
+      removeChunkUploadSession(uploadId);
+      return result;
+    } catch (error) {
+      for (const file of assembledFiles) {
+        if (existsSync(file.path)) {
+          rmSync(file.path, { force: true });
+        }
+      }
+
+      throw error;
+    }
   }
 
   async listPublications(query: ListPublicationsDto) {
@@ -374,6 +496,55 @@ export class PublicationsService {
 
   getUploadDirectory() {
     return getUploadDirectory();
+  }
+
+  private getChunkManifestFile(uploadId: string, fileId: string) {
+    const manifest = readChunkUploadManifest(uploadId);
+
+    if (!manifest) {
+      throw new NotFoundException('Không tìm thấy phiên tải lên.');
+    }
+
+    const file = manifest.files.find((item) => item.id === fileId);
+
+    if (!file) {
+      throw new NotFoundException('Không tìm thấy tệp trong phiên tải lên.');
+    }
+
+    return { manifest, file };
+  }
+
+  private validateChunkedFileDescriptor(file: InitChunkUploadFileInput) {
+    const expectedChunkCount = Math.ceil(file.size / file.chunkSize);
+
+    if (file.chunkCount !== expectedChunkCount) {
+      throw new BadRequestException('Thông tin chunk của tệp không hợp lệ.');
+    }
+  }
+
+  private getExpectedChunkSize(
+    file: ChunkUploadManifest['files'][number],
+    chunkIndex: number,
+  ) {
+    if (chunkIndex === file.chunkCount - 1) {
+      return file.size - file.chunkSize * (file.chunkCount - 1);
+    }
+
+    return file.chunkSize;
+  }
+
+  private ensureAllChunksUploaded(
+    uploadId: string,
+    file: ChunkUploadManifest['files'][number],
+  ) {
+    for (let index = 0; index < file.chunkCount; index += 1) {
+      const actualSize = getChunkFileSize(uploadId, file.id, index);
+      const expectedSize = this.getExpectedChunkSize(file, index);
+
+      if (actualSize !== expectedSize) {
+        throw new BadRequestException('Tệp tải lên chưa đầy đủ các chunk.');
+      }
+    }
   }
 
   private mapPublicationDetail(
